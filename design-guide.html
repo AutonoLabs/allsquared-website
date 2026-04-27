@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AllSquared — Design Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Trust palette — deep navy primary, off-white paper, single confident green for action */
+    --navy-900:#0B1B33;        /* primary ink — deep, calm, regulator-grade */
+    --navy-800:#13294B;
+    --navy-600:#2D466F;
+    --navy-400:#6B7E9E;        /* secondary text */
+    --navy-200:#C7D0E0;        /* hairlines */
+    --navy-100:#E8ECF3;        /* subtle fills */
+    --paper:#FAFAF7;           /* warm off-white — letterhead feel */
+    --paper-2:#F2F1EB;         /* card backgrounds */
+    --paper-line:#E2E0D6;
+    --white:#FFFFFF;
+
+    --green-700:#1F6B3F;       /* action / verified — chartered-surveyor green, not neon */
+    --green-600:#2A8554;
+    --green-100:#E5F1EA;
+
+    --gold-700:#8A6A1E;        /* accent for marks, seals, indices */
+    --red-600:#A8392B;         /* dispute / strike */
+
+    --serif:'Source Serif 4', Georgia, serif;
+    --sans:'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+
+    --rule:1px solid var(--navy-200);
+    --rule-paper:1px solid var(--paper-line);
+
+    --r-sm:6px;
+    --r-md:10px;
+    --r-lg:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--navy-900);
+    font-family:var(--sans);
+    font-size:16px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    letter-spacing:-0.005em;
+  }
+  .wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+
+  /* HEADER */
+  header.guide-head{
+    border-bottom:var(--rule);
+    padding:28px 0;
+    background:var(--white);
+    position:sticky;top:0;z-index:10;
+  }
+  .guide-head-inner{display:flex;align-items:center;justify-content:space-between;gap:32px}
+  .doc-meta{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy-400)}
+  .doc-meta b{color:var(--navy-900);font-weight:500}
+  .home-link{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-700);text-decoration:none;border:1px solid var(--green-700);padding:8px 14px;border-radius:100px}
+  .home-link:hover{background:var(--green-700);color:#fff}
+
+  /* TITLE BLOCK */
+  .title-block{padding:88px 0 72px;border-bottom:var(--rule);background:var(--white)}
+  .ovline{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--green-700);margin-bottom:24px}
+  h1.doc-title{font-family:var(--serif);font-size:clamp(48px,6vw,84px);line-height:1.02;font-weight:400;letter-spacing:-0.02em;max-width:980px;margin-bottom:28px}
+  h1.doc-title em{font-style:italic;color:var(--navy-600)}
+  .doc-lede{font-size:18px;line-height:1.55;color:var(--navy-600);max-width:680px}
+  .doc-toc{margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:var(--rule)}
+  .doc-toc a{padding:18px 0;border-right:var(--rule);font-family:var(--mono);font-size:12px;letter-spacing:0.04em;color:var(--navy-900);text-decoration:none;display:flex;align-items:center;gap:14px}
+  .doc-toc a:last-child{border-right:none}
+  .doc-toc a:hover{color:var(--green-700)}
+  .doc-toc a .num{color:var(--navy-400);font-size:10px}
+
+  /* SECTION */
+  section.s{padding:96px 0;border-bottom:var(--rule)}
+  section.s.alt{background:var(--white)}
+  .s-head{display:grid;grid-template-columns:160px 1fr;gap:48px;margin-bottom:64px;align-items:end}
+  .s-num{font-family:var(--mono);font-size:13px;color:var(--navy-400);letter-spacing:0.18em}
+  .s-title{font-family:var(--serif);font-size:clamp(32px,3.6vw,48px);line-height:1.1;font-weight:400;letter-spacing:-0.015em;max-width:780px}
+  .s-title em{font-style:italic;color:var(--navy-600)}
+  .s-sub{font-size:16px;color:var(--navy-600);margin-top:18px;max-width:600px}
+
+  /* PRINCIPLES */
+  .princ-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:var(--rule)}
+  .princ{padding:32px 28px;border-right:var(--rule);border-bottom:var(--rule)}
+  .princ:nth-child(3n){border-right:none}
+  .princ-num{font-family:var(--mono);font-size:11px;color:var(--green-700);letter-spacing:0.15em;margin-bottom:18px}
+  .princ-h{font-family:var(--serif);font-size:24px;font-weight:400;line-height:1.2;margin-bottom:12px;letter-spacing:-0.01em}
+  .princ-p{font-size:14.5px;color:var(--navy-600);line-height:1.6}
+  .princ-do{margin-top:18px;display:flex;flex-direction:column;gap:6px}
+  .princ-do span{font-family:var(--mono);font-size:11px;color:var(--navy-900)}
+  .princ-do span::before{content:'+';color:var(--green-700);margin-right:8px;font-weight:600}
+  .princ-do span.no::before{content:'−';color:var(--red-600)}
+
+  /* TYPE SPECIMEN */
+  .type-grid{display:grid;grid-template-columns:200px 1fr;gap:32px;margin-bottom:40px;align-items:baseline;padding-bottom:32px;border-bottom:var(--rule-paper)}
+  .type-grid:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
+  .type-meta{font-family:var(--mono);font-size:11px;color:var(--navy-400);letter-spacing:0.05em;line-height:1.7}
+  .type-meta b{color:var(--navy-900);display:block;font-weight:500;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+  .type-sample{font-family:var(--serif);font-weight:400}
+  .ts-display{font-size:72px;line-height:1;letter-spacing:-0.02em}
+  .ts-h1{font-size:52px;line-height:1.05;letter-spacing:-0.015em}
+  .ts-h2{font-size:36px;line-height:1.1;letter-spacing:-0.01em;font-family:var(--sans);font-weight:600}
+  .ts-h3{font-size:22px;line-height:1.2;font-family:var(--sans);font-weight:600;letter-spacing:-0.01em}
+  .ts-body{font-family:var(--sans);font-size:17px;line-height:1.6;color:var(--navy-900);max-width:580px;font-weight:400}
+  .ts-sm{font-family:var(--sans);font-size:14px;color:var(--navy-600);line-height:1.55}
+  .ts-mono{font-family:var(--mono);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy-600)}
+  .ts-italic em{font-style:italic;color:var(--navy-600)}
+
+  /* COLOUR SWATCHES */
+  .swatch-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:32px}
+  .swatch{border:1px solid var(--paper-line);border-radius:var(--r-md);overflow:hidden;background:var(--white)}
+  .swatch .chip{aspect-ratio:1.1/1}
+  .swatch .meta{padding:14px}
+  .swatch .name{font-family:var(--sans);font-size:13px;font-weight:600;margin-bottom:4px}
+  .swatch .hex{font-family:var(--mono);font-size:11px;color:var(--navy-400);letter-spacing:0.05em}
+  .swatch .role{font-family:var(--mono);font-size:10px;color:var(--navy-400);letter-spacing:0.12em;text-transform:uppercase;margin-top:8px;display:block}
+
+  /* COLOUR PAIRS — accessibility check */
+  .pair-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:32px}
+  .pair{border-radius:var(--r-md);padding:24px;font-family:var(--sans)}
+  .pair b{display:block;font-size:18px;font-weight:600;margin-bottom:6px}
+  .pair span{font-size:13px;opacity:0.8}
+  .pair .ratio{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;margin-top:14px;display:block;padding-top:12px;border-top:1px solid currentColor;opacity:0.5}
+
+  /* COMPONENTS */
+  .demo{padding:40px;background:var(--white);border:var(--rule);border-radius:var(--r-lg);margin-bottom:24px;position:relative}
+  .demo-label{position:absolute;top:14px;right:18px;font-family:var(--mono);font-size:10px;color:var(--navy-400);letter-spacing:0.12em;text-transform:uppercase}
+  .demo-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+
+  /* BUTTONS — the canonical set */
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:8px;font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:-0.005em;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:all 0.15s ease;line-height:1}
+  .btn-primary{background:var(--green-700);color:#fff;border-color:var(--green-700)}
+  .btn-primary:hover{background:var(--green-600);border-color:var(--green-600)}
+  .btn-secondary{background:var(--navy-900);color:#fff;border-color:var(--navy-900)}
+  .btn-secondary:hover{background:var(--navy-800)}
+  .btn-ghost{background:transparent;color:var(--navy-900);border-color:var(--navy-200)}
+  .btn-ghost:hover{border-color:var(--navy-900)}
+  .btn-link{background:transparent;color:var(--green-700);border:none;padding:6px 0;text-decoration:underline;text-underline-offset:4px}
+  .btn .arr{transition:transform 0.18s}
+  .btn:hover .arr{transform:translateX(3px)}
+
+  /* INPUTS */
+  .field{display:flex;flex-direction:column;gap:6px;max-width:380px}
+  .field label{font-family:var(--mono);font-size:11px;color:var(--navy-600);letter-spacing:0.1em;text-transform:uppercase}
+  .field input,.field select{font-family:var(--sans);font-size:15px;padding:12px 14px;border:1px solid var(--navy-200);border-radius:8px;background:var(--white);color:var(--navy-900);outline:none;transition:border-color 0.15s,box-shadow 0.15s}
+  .field input:focus,.field select:focus{border-color:var(--navy-900);box-shadow:0 0 0 3px rgba(11,27,51,0.08)}
+  .field .hint{font-size:12px;color:var(--navy-400)}
+
+  /* BADGES */
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:100px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;border:1px solid transparent}
+  .badge.b-trust{background:var(--white);border-color:var(--navy-200);color:var(--navy-900)}
+  .badge.b-trust::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green-600)}
+  .badge.b-verified{background:var(--green-100);color:var(--green-700);border-color:rgba(31,107,63,0.2)}
+  .badge.b-pending{background:#FFF6E5;color:var(--gold-700);border-color:rgba(138,106,30,0.2)}
+  .badge.b-flag{background:#FBEEEC;color:var(--red-600);border-color:rgba(168,57,43,0.2)}
+
+  /* CARD — letterhead aesthetic */
+  .card-letter{background:var(--white);border:1px solid var(--paper-line);border-radius:var(--r-lg);padding:28px;position:relative;max-width:520px}
+  .card-letter::before{content:'';position:absolute;top:14px;left:14px;right:14px;bottom:14px;border:1px solid var(--paper-line);border-radius:8px;pointer-events:none;opacity:0.6}
+  .card-letter > *{position:relative}
+  .cl-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px;border-bottom:1px solid var(--paper-line);margin-bottom:18px}
+  .cl-head .name{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy-900)}
+  .cl-head .ref{font-family:var(--mono);font-size:11px;color:var(--navy-400)}
+  .cl-title{font-family:var(--serif);font-size:22px;font-weight:400;line-height:1.2;margin-bottom:8px;letter-spacing:-0.005em}
+  .cl-meta{font-family:var(--mono);font-size:11px;color:var(--navy-400);letter-spacing:0.06em;text-transform:uppercase}
+
+  /* MILESTONE LINE */
+  .ms-line{display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:center;padding:12px 0;border-top:1px dotted var(--paper-line);font-size:14px}
+  .ms-line:first-child{border-top:none}
+  .ms-idx{font-family:var(--serif);font-style:italic;color:var(--navy-600);font-size:18px}
+  .ms-body{line-height:1.3}
+  .ms-body small{display:block;font-family:var(--mono);font-size:10px;color:var(--navy-400);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px}
+  .ms-amt{font-family:var(--mono);font-size:13px;color:var(--navy-900);font-weight:500}
+
+  /* SPACING SCALE */
+  .space-row{display:flex;align-items:center;gap:24px;padding:14px 0;border-bottom:var(--rule-paper)}
+  .space-row:last-child{border-bottom:none}
+  .space-row .tok{font-family:var(--mono);font-size:12px;color:var(--navy-400);width:80px;letter-spacing:0.05em}
+  .space-row .tok b{color:var(--navy-900);font-weight:500}
+  .space-row .px{font-family:var(--mono);font-size:12px;color:var(--navy-600);width:60px}
+  .space-row .bar{height:14px;background:var(--green-700);border-radius:2px}
+
+  /* RADII */
+  .radii-row{display:flex;gap:20px;align-items:flex-end}
+  .radii{flex:1;text-align:center}
+  .radii .box{height:80px;background:var(--navy-100);border:1px solid var(--navy-200);margin-bottom:12px}
+  .radii .name{font-family:var(--mono);font-size:11px;color:var(--navy-400);letter-spacing:0.08em}
+  .radii .name b{color:var(--navy-900);display:block;margin-bottom:2px;font-weight:500}
+
+  /* VOICE EXAMPLES */
+  .voice-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:var(--rule)}
+  .voice-cell{padding:28px;border-right:var(--rule);border-bottom:var(--rule)}
+  .voice-cell:nth-child(2n){border-right:none}
+  .voice-tag{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px}
+  .voice-tag.no{color:var(--red-600)}
+  .voice-tag.yes{color:var(--green-700)}
+  .voice-text{font-family:var(--serif);font-size:20px;line-height:1.4;font-weight:400;letter-spacing:-0.005em}
+  .voice-text.dim{color:var(--navy-400);text-decoration:line-through;text-decoration-color:rgba(168,57,43,0.4)}
+
+  /* LOGO MARK */
+  .logo-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .logo-tile{padding:36px;border:1px solid var(--paper-line);border-radius:var(--r-md);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;min-height:180px}
+  .logo-tile.dark{background:var(--navy-900)}
+  .logo-tile.green{background:var(--green-700)}
+  .logo-tile.paper{background:var(--paper-2)}
+  .logo-meta{font-family:var(--mono);font-size:10px;color:var(--navy-400);letter-spacing:0.12em;text-transform:uppercase}
+  .logo-tile.dark .logo-meta,.logo-tile.green .logo-meta{color:rgba(255,255,255,0.5)}
+
+  /* The mark itself */
+  .as-mark{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-0.01em;line-height:1;color:var(--navy-900)}
+  .as-mark .glyph{width:36px;height:36px;flex-shrink:0;border:1.5px solid currentColor;border-radius:4px;display:grid;place-items:center;position:relative;font-family:var(--sans);font-weight:600;font-size:12px;letter-spacing:-0.02em}
+  .as-mark .glyph::after{content:'2';position:absolute;top:2px;right:3px;font-family:var(--serif);font-style:italic;font-size:10px;font-weight:400;color:var(--green-700);line-height:1}
+  .as-mark em{font-style:italic;color:var(--navy-400);font-weight:400}
+  .as-mark b{font-weight:600}
+  .as-mark.on-dark{color:#fff}
+  .as-mark.on-dark em{color:rgba(255,255,255,0.55)}
+  .as-mark.on-dark .glyph::after{color:#7BD9A1}
+  .as-mark.lg{font-size:32px}
+  .as-mark.lg .glyph{width:52px;height:52px;font-size:16px}
+  .as-mark.lg .glyph::after{font-size:13px;top:3px;right:5px}
+
+  /* TRUST PROOF STRIP */
+  .trust-strip{display:flex;align-items:stretch;border:1px solid var(--paper-line);border-radius:var(--r-md);overflow:hidden;background:var(--white)}
+  .trust-cell{flex:1;padding:20px 24px;border-right:1px solid var(--paper-line);font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy-600);display:flex;align-items:center;gap:10px}
+  .trust-cell:last-child{border-right:none}
+  .trust-cell::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--green-600);box-shadow:0 0 0 3px var(--green-100)}
+  .trust-cell b{color:var(--navy-900);font-weight:500}
+
+  @media (max-width:900px){
+    .wrap{padding:0 24px}
+    .s-head{grid-template-columns:1fr;gap:18px}
+    .doc-toc{grid-template-columns:1fr 1fr}
+    .doc-toc a{border-right:none;border-bottom:var(--rule)}
+    .princ-grid,.swatch-row,.pair-grid,.logo-row{grid-template-columns:1fr 1fr}
+    .princ{border-right:none}
+    .princ:nth-child(2n){border-right:none}
+    .voice-grid{grid-template-columns:1fr}
+    .voice-cell{border-right:none}
+    .type-grid{grid-template-columns:1fr;gap:12px}
+    .ts-display{font-size:48px}
+    .ts-h1{font-size:36px}
+  }
+</style>
+</head>
+<body>
+
+<header class="guide-head">
+  <div class="wrap guide-head-inner">
+    <div class="doc-meta">AllSquared · <b>Design Guide</b> · v1.0</div>
+    <a href="AllSquared.html" class="home-link">View landing page →</a>
+  </div>
+</header>
+
+<section class="title-block">
+  <div class="wrap">
+    <div class="ovline">A — Foundation document</div>
+    <h1 class="doc-title">A visual system built for <em>serious money</em>, moved by serious people.</h1>
+    <p class="doc-lede">AllSquared moves five-, six-, and seven-figure deals between UK tradesmen, contractors, agencies and the people commissioning their work. The design system that surrounds it has one job: to look, feel, and read like infrastructure that can be trusted with that money. Not a startup. Not a fintech. Closer to a chartered surveyor's letterhead than to a SaaS landing page.</p>
+    <nav class="doc-toc">
+      <a href="#principles"><span class="num">01</span> Principles</a>
+      <a href="#identity"><span class="num">02</span> Identity</a>
+      <a href="#type"><span class="num">03</span> Type</a>
+      <a href="#colour"><span class="num">04</span> Colour</a>
+      <a href="#components"><span class="num">05</span> Components</a>
+    </nav>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section class="s alt" id="principles">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num">01 — Principles</div>
+      <div>
+        <h2 class="s-title">Five rules that keep the work <em>credible</em>.</h2>
+        <p class="s-sub">Every design decision should be testable against these. If a layout, copy choice, or interaction can't justify itself here, it doesn't ship.</p>
+      </div>
+    </div>
+
+    <div class="princ-grid">
+      <div class="princ">
+        <div class="princ-num">01</div>
+        <h3 class="princ-h">Look like infrastructure, not a brand.</h3>
+        <p class="princ-p">The reader is about to put £40,000 through this product. They want regulator energy, not personality. Restraint is the point.</p>
+        <div class="princ-do">
+          <span>Calm typography, generous white</span>
+          <span>Real document structure, real numbers</span>
+          <span class="no">No emoji decoration in chrome</span>
+          <span class="no">No handwritten or novelty fonts</span>
+        </div>
+      </div>
+      <div class="princ">
+        <div class="princ-num">02</div>
+        <h3 class="princ-h">Plain English, said once.</h3>
+        <p class="princ-p">A sparky earning £80k a year doesn't read marketing copy. He reads the bit that tells him when he gets paid. Say that, then stop.</p>
+        <div class="princ-do">
+          <span>Short, declarative sentences</span>
+          <span>Concrete numbers and timeframes</span>
+          <span class="no">No "unlock", "supercharge", "magic"</span>
+          <span class="no">No exclamation points, ever</span>
+        </div>
+      </div>
+      <div class="princ">
+        <div class="princ-num">03</div>
+        <h3 class="princ-h">Earn the green.</h3>
+        <p class="princ-p">A single confident green carries action and verification. It only appears against work that is genuinely done. It is not a decoration.</p>
+        <div class="princ-do">
+          <span>Green = primary CTA, verified, paid</span>
+          <span>Green dot = live, regulated, on</span>
+          <span class="no">No green gradients or glow</span>
+          <span class="no">Don't use it for body text</span>
+        </div>
+      </div>
+      <div class="princ">
+        <div class="princ-num">04</div>
+        <h3 class="princ-h">Show the paperwork.</h3>
+        <p class="princ-p">Every key idea has a document version: a contract line, a milestone row, a signed party block. The product is paperwork that finally works — show it.</p>
+        <div class="princ-do">
+          <span>Letterhead-style cards with hairline rules</span>
+          <span>Reference numbers, dates, party blocks</span>
+          <span class="no">No abstract illustration of "trust"</span>
+        </div>
+      </div>
+      <div class="princ">
+        <div class="princ-num">05</div>
+        <h3 class="princ-h">Numbers are the proof.</h3>
+        <p class="princ-p">Stats, deal sizes, fees, dates — these are the trust-building elements. Render them with monospace clarity and never round them off into vibes.</p>
+        <div class="princ-do">
+          <span>Monospace for refs, fees, IDs</span>
+          <span>Pound sign always shown</span>
+          <span>Source the stat or don't use it</span>
+        </div>
+      </div>
+      <div class="princ">
+        <div class="princ-num">06</div>
+        <h3 class="princ-h">Built in Britain, plainly.</h3>
+        <p class="princ-p">UK English. UK law. UK regulators. Tone is reserved, slightly dry, never American. Never apologetic. The work speaks first.</p>
+        <div class="princ-do">
+          <span>"Authorised", "Solicitor", "Programme"</span>
+          <span>FCA, SRA, FSB cited where they apply</span>
+          <span class="no">No "awesome", no "hey,"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IDENTITY -->
+<section class="s" id="identity">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num">02 — Identity</div>
+      <div>
+        <h2 class="s-title">The mark — a <em>squared</em> stamp, not a logo.</h2>
+        <p class="s-sub">A small framed monogram with an italic superscript ². Reads like a stamp on a document, which is the point. Always paired with the wordmark in editorial contexts.</p>
+      </div>
+    </div>
+
+    <div class="logo-row">
+      <div class="logo-tile paper">
+        <a href="#" class="as-mark lg">
+          <span class="glyph" aria-hidden="true">AS</span>
+          <span><em>All</em><b>Squared</b></span>
+        </a>
+        <div class="logo-meta">Primary · on paper</div>
+      </div>
+      <div class="logo-tile">
+        <a href="#" class="as-mark lg">
+          <span class="glyph" aria-hidden="true">AS</span>
+          <span><em>All</em><b>Squared</b></span>
+        </a>
+        <div class="logo-meta">On white</div>
+      </div>
+      <div class="logo-tile dark">
+        <a href="#" class="as-mark lg on-dark">
+          <span class="glyph" aria-hidden="true">AS</span>
+          <span><em>All</em><b>Squared</b></span>
+        </a>
+        <div class="logo-meta">On navy</div>
+      </div>
+      <div class="logo-tile green">
+        <a href="#" class="as-mark lg on-dark">
+          <span class="glyph" aria-hidden="true">AS</span>
+          <span><em>All</em><b>Squared</b></span>
+        </a>
+        <div class="logo-meta">On accent</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPE -->
+<section class="s alt" id="type">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num">03 — Typography</div>
+      <div>
+        <h2 class="s-title">Two families. One workhorse, one with <em>posture</em>.</h2>
+        <p class="s-sub">Inter Tight is the workhorse — clean, dense, regulator-readable, sets paragraphs and labels at any size. Source Serif 4 carries the editorial moments — display headlines, contract-style titles, and italics that read like a barrister's footnote, not a marketing flourish.</p>
+      </div>
+    </div>
+
+    <div class="type-grid">
+      <div class="type-meta"><b>Display</b>Source Serif 4 · 400<br>72/76 · −2%</div>
+      <div class="type-sample ts-display">Weeks of work. Months of <em style="font-style:italic;color:var(--navy-600)">chasing.</em></div>
+    </div>
+    <div class="type-grid">
+      <div class="type-meta"><b>H1 — Editorial</b>Source Serif 4 · 400<br>52/56 · −1.5%</div>
+      <div class="type-sample ts-h1">A handshake is a lovely thing. It is also, increasingly, a bad way to get paid.</div>
+    </div>
+    <div class="type-grid">
+      <div class="type-meta"><b>H2 — Section</b>Inter Tight · 600<br>36/40 · −1%</div>
+      <div class="type-sample ts-h2">A four-move method, where everyone wins.</div>
+    </div>
+    <div class="type-grid">
+      <div class="type-meta"><b>H3 — Card</b>Inter Tight · 600<br>22/26 · −1%</div>
+      <div class="type-sample ts-h3">A contract, drafted in minutes.</div>
+    </div>
+    <div class="type-grid">
+      <div class="type-meta"><b>Body — Long</b>Inter Tight · 400<br>17/27</div>
+      <div class="type-sample ts-body">The client transfers the project total into FCA-authorised escrow. The money is ring-fenced — neither party can touch it until agreed work is signed off.</div>
+    </div>
+    <div class="type-grid">
+      <div class="type-meta"><b>Body — Small</b>Inter Tight · 400<br>14/22</div>
+      <div class="type-sample ts-sm">For agencies, firms, and studios running multiple deals a year. No flat fees, reduced percentage, team features.</div>
+    </div>
+    <div class="type-grid">
+      <div class="type-meta"><b>Mono / label</b>JetBrains Mono · 500<br>11/14 · +10% tracking</div>
+      <div class="type-sample ts-mono">FCA-Authorised Escrow · Ref AS-2026-0418</div>
+    </div>
+    <div class="type-grid">
+      <div class="type-meta"><b>Italic — accent</b>Source Serif 4 · 400 italic<br>Used for editorial emphasis only</div>
+      <div class="type-sample ts-h1 ts-italic">Five tools doing half the job. <em>Or one doing all of it.</em></div>
+    </div>
+  </div>
+</section>
+
+<!-- COLOUR -->
+<section class="s" id="colour">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num">04 — Colour</div>
+      <div>
+        <h2 class="s-title">Navy, paper, one green. <em>That's the palette.</em></h2>
+        <p class="s-sub">Trust comes from restraint. A deep navy ink, a warm off-white paper, and one chartered-surveyor green for action and verified state. Gold and red are reserved for marks (seals, indices) and dispute states respectively — never for chrome.</p>
+      </div>
+    </div>
+
+    <div class="swatch-row">
+      <div class="swatch"><div class="chip" style="background:#0B1B33"></div><div class="meta"><div class="name">Navy 900</div><div class="hex">#0B1B33</div><span class="role">Primary ink</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#13294B"></div><div class="meta"><div class="name">Navy 800</div><div class="hex">#13294B</div><span class="role">Hover / dark surface</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#2D466F"></div><div class="meta"><div class="name">Navy 600</div><div class="hex">#2D466F</div><span class="role">Italic accent</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#6B7E9E"></div><div class="meta"><div class="name">Navy 400</div><div class="hex">#6B7E9E</div><span class="role">Secondary text</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#C7D0E0"></div><div class="meta"><div class="name">Navy 200</div><div class="hex">#C7D0E0</div><span class="role">Hairline rule</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#E8ECF3"></div><div class="meta"><div class="name">Navy 100</div><div class="hex">#E8ECF3</div><span class="role">Subtle fill</span></div></div>
+    </div>
+    <div class="swatch-row">
+      <div class="swatch"><div class="chip" style="background:#FAFAF7"></div><div class="meta"><div class="name">Paper</div><div class="hex">#FAFAF7</div><span class="role">Page background</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#F2F1EB"></div><div class="meta"><div class="name">Paper 2</div><div class="hex">#F2F1EB</div><span class="role">Card alt</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#1F6B3F"></div><div class="meta"><div class="name">Green 700</div><div class="hex">#1F6B3F</div><span class="role">CTA · Verified</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#E5F1EA"></div><div class="meta"><div class="name">Green 100</div><div class="hex">#E5F1EA</div><span class="role">Verified fill</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#8A6A1E"></div><div class="meta"><div class="name">Gold 700</div><div class="hex">#8A6A1E</div><span class="role">Mark / index</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#A8392B"></div><div class="meta"><div class="name">Red 600</div><div class="hex">#A8392B</div><span class="role">Dispute · strike</span></div></div>
+    </div>
+
+    <div class="pair-grid">
+      <div class="pair" style="background:#0B1B33;color:#FAFAF7"><b>Authority</b><span>Navy 900 on Paper</span><span class="ratio">AAA · ratio 14.7:1</span></div>
+      <div class="pair" style="background:#FAFAF7;color:#0B1B33;border:1px solid #C7D0E0"><b>Body copy</b><span>Navy 900 on Paper</span><span class="ratio">AAA · 14.7:1</span></div>
+      <div class="pair" style="background:#1F6B3F;color:#FAFAF7"><b>Primary CTA</b><span>Paper on Green 700</span><span class="ratio">AA · 6.4:1</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPONENTS -->
+<section class="s alt" id="components">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num">05 — Components</div>
+      <div>
+        <h2 class="s-title">The pieces that show up <em>everywhere</em>.</h2>
+        <p class="s-sub">Buttons, badges, fields, the letterhead card, the milestone row, the trust strip. Every screen of AllSquared is built from this small set.</p>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="demo">
+      <div class="demo-label">Buttons</div>
+      <div class="demo-row">
+        <a href="#" class="btn btn-primary">Draft a contract <span class="arr">→</span></a>
+        <a href="#" class="btn btn-secondary">Sign in</a>
+        <a href="#" class="btn btn-ghost">View pricing</a>
+        <a href="#" class="btn btn-link">Read more</a>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="demo">
+      <div class="demo-label">Badges &amp; states</div>
+      <div class="demo-row">
+        <span class="badge b-trust">FCA-authorised escrow</span>
+        <span class="badge b-verified">✓ Verified · 14 Apr</span>
+        <span class="badge b-pending">⏱ Awaiting client</span>
+        <span class="badge b-flag">⚠ Disputed</span>
+      </div>
+    </div>
+
+    <!-- Trust strip -->
+    <div class="demo">
+      <div class="demo-label">Trust strip</div>
+      <div class="trust-strip">
+        <div class="trust-cell"><b>FCA</b>-authorised escrow</div>
+        <div class="trust-cell"><b>SRA</b>-regulated solicitors</div>
+        <div class="trust-cell">UK <b>client-money</b> rules</div>
+        <div class="trust-cell">Built in <b>London</b></div>
+      </div>
+    </div>
+
+    <!-- Field -->
+    <div class="demo">
+      <div class="demo-label">Form field</div>
+      <div class="field">
+        <label for="d1">Project value</label>
+        <input id="d1" type="text" value="£62,400" />
+        <span class="hint">Held in escrow until milestone sign-off.</span>
+      </div>
+    </div>
+
+    <!-- Letterhead card -->
+    <div class="demo">
+      <div class="demo-label">Letterhead card</div>
+      <div class="card-letter">
+        <div class="cl-head">
+          <span class="name">Service Agreement</span>
+          <span class="ref">№ AS-2026-0418</span>
+        </div>
+        <h3 class="cl-title">Commercial fit-out — Unit 4, Hackney Road</h3>
+        <div class="cl-meta">Governed by the laws of England &amp; Wales · 14 March 2026</div>
+        <div style="margin-top:18px">
+          <div class="ms-line">
+            <span class="ms-idx">i.</span>
+            <div class="ms-body">Strip-out &amp; site protection<small>Verified · 08 April</small></div>
+            <span class="ms-amt">£11,200</span>
+          </div>
+          <div class="ms-line">
+            <span class="ms-idx">ii.</span>
+            <div class="ms-body">First fix — M&amp;E, data, HVAC<small>Verified · 12 April</small></div>
+            <span class="ms-amt">£18,600</span>
+          </div>
+          <div class="ms-line">
+            <span class="ms-idx">iii.</span>
+            <div class="ms-body">Partitions, services, glazing<small>Proof submitted · 18:42</small></div>
+            <span class="ms-amt">£22,400</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spacing -->
+    <div class="demo">
+      <div class="demo-label">Spacing scale (4-pt grid)</div>
+      <div>
+        <div class="space-row"><span class="tok"><b>s-1</b></span><span class="px">4px</span><span class="bar" style="width:4px"></span></div>
+        <div class="space-row"><span class="tok"><b>s-2</b></span><span class="px">8px</span><span class="bar" style="width:8px"></span></div>
+        <div class="space-row"><span class="tok"><b>s-3</b></span><span class="px">12px</span><span class="bar" style="width:12px"></span></div>
+        <div class="space-row"><span class="tok"><b>s-4</b></span><span class="px">16px</span><span class="bar" style="width:16px"></span></div>
+        <div class="space-row"><span class="tok"><b>s-6</b></span><span class="px">24px</span><span class="bar" style="width:24px"></span></div>
+        <div class="space-row"><span class="tok"><b>s-8</b></span><span class="px">32px</span><span class="bar" style="width:32px"></span></div>
+        <div class="space-row"><span class="tok"><b>s-12</b></span><span class="px">48px</span><span class="bar" style="width:48px"></span></div>
+        <div class="space-row"><span class="tok"><b>s-16</b></span><span class="px">64px</span><span class="bar" style="width:64px"></span></div>
+        <div class="space-row"><span class="tok"><b>s-24</b></span><span class="px">96px</span><span class="bar" style="width:96px"></span></div>
+      </div>
+    </div>
+
+    <!-- Radii -->
+    <div class="demo">
+      <div class="demo-label">Radii</div>
+      <div class="radii-row">
+        <div class="radii"><div class="box" style="border-radius:0"></div><div class="name"><b>None</b>0px · tables, rules</div></div>
+        <div class="radii"><div class="box" style="border-radius:6px"></div><div class="name"><b>Sm</b>6px · inputs, badges</div></div>
+        <div class="radii"><div class="box" style="border-radius:10px"></div><div class="name"><b>Md</b>10px · swatches, tiles</div></div>
+        <div class="radii"><div class="box" style="border-radius:14px"></div><div class="name"><b>Lg</b>14px · cards, surfaces</div></div>
+        <div class="radii"><div class="box" style="border-radius:100px"></div><div class="name"><b>Pill</b>full · badges only</div></div>
+      </div>
+    </div>
+
+    <!-- Voice / copy -->
+    <div class="voice-grid" style="margin-top:48px">
+      <div class="voice-cell">
+        <div class="voice-tag no">— Don't write</div>
+        <div class="voice-text dim">Supercharge your invoicing workflow with AI-powered escrow magic!</div>
+      </div>
+      <div class="voice-cell">
+        <div class="voice-tag yes">+ Write</div>
+        <div class="voice-text">Funds held in an FCA-authorised account. Released on milestone proof, usually the same day.</div>
+      </div>
+      <div class="voice-cell">
+        <div class="voice-tag no">— Don't write</div>
+        <div class="voice-text dim">We're a contract platform that helps awesome creators get paid faster than ever before!</div>
+      </div>
+      <div class="voice-cell">
+        <div class="voice-tag yes">+ Write</div>
+        <div class="voice-text">A contract, an escrow, a verified release. One platform, for jobs from £5,000 upward.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:48px 0;text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy-400)">
+  AllSquared Design Guide · v1.0 · MMXXVI
+</footer>
+
+</body>
+</html>

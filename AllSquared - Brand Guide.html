@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AllSquared — Brand Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#000000;
+    --paper:#FFF8EC;
+    --paper-2:#FFE9B0;
+    --white:#FFFFFF;
+    --lime:#C9F546;
+    --lime-deep:#A6D72F;
+    --tomato:#FF5B2E;
+    --sky:#5BB7FF;
+    --grape:#B58CFF;
+    --rose:#FFB7C7;
+    --shadow:6px 6px 0 var(--ink);
+    --shadow-lg:10px 10px 0 var(--ink);
+    --shadow-sm:4px 4px 0 var(--ink);
+    --border:3px solid var(--ink);
+    --border-thick:4px solid var(--ink);
+    --display:'Archivo Black',Impact,sans-serif;
+    --sans:'Space Grotesk',-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:16px;line-height:1.55;font-weight:500;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 1px 1px,rgba(0,0,0,0.12) 1px,transparent 0);
+    background-size:24px 24px;
+  }
+  .wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+  ::selection{background:var(--lime)}
+
+  /* HEADER */
+  nav.top{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:var(--border-thick)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:24px}
+  .as-mark{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+  .as-mark .glyph{width:40px;height:40px;flex-shrink:0;background:var(--lime);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:14px;box-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg);position:relative}
+  .as-mark .glyph::after{content:'²';position:absolute;top:-2px;right:-3px;font-family:var(--display);font-size:12px;color:var(--ink);background:var(--tomato);width:14px;height:14px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:50%;line-height:1}
+  .as-mark .word{font-family:var(--display);font-size:22px;text-transform:uppercase;letter-spacing:-0.02em;line-height:1}
+  .nav-back{font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;text-decoration:none;color:var(--ink);padding:8px 14px;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);background:var(--white);transition:all .12s}
+  .nav-back:hover{background:var(--lime);transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+
+  /* TITLE */
+  .title-block{padding:80px 0 56px;border-bottom:var(--border-thick)}
+  .doc-meta{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:2.5px solid var(--ink);background:var(--white);font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;box-shadow:2px 2px 0 var(--ink)}
+  .pill.lime{background:var(--lime)}
+  .pill.tomato{background:var(--tomato);color:var(--white)}
+  .pill.ink{background:var(--ink);color:var(--lime)}
+  h1.doc-title{font-family:var(--display);font-size:clamp(56px,7.5vw,108px);line-height:0.92;text-transform:uppercase;letter-spacing:-0.022em;margin-bottom:24px}
+  h1.doc-title .stamp{display:inline-block;background:var(--lime);padding:0 12px 4px;border:4px solid var(--ink);box-shadow:6px 6px 0 var(--ink);transform:rotate(-2deg);margin:4px 0}
+  .doc-lede{font-size:19px;font-weight:500;max-width:720px;line-height:1.5}
+
+  /* TOC */
+  .toc{margin-top:48px;display:grid;grid-template-columns:repeat(5,1fr);border:var(--border-thick);background:var(--white);box-shadow:var(--shadow)}
+  .toc a{padding:18px 16px;border-right:3px solid var(--ink);font-family:var(--display);font-size:13px;text-transform:uppercase;letter-spacing:0.02em;color:var(--ink);text-decoration:none;display:flex;flex-direction:column;gap:6px;transition:background .12s}
+  .toc a:last-child{border-right:none}
+  .toc a:hover{background:var(--lime)}
+  .toc a small{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.08em}
+
+  /* SECTION */
+  section.s{padding:96px 0;border-bottom:var(--border-thick);position:relative}
+  section.s.alt{background:var(--paper-2)}
+  section.s.ink{background:var(--ink);color:var(--paper)}
+  section.s.ink h2{color:var(--paper)}
+
+  .s-head{display:grid;grid-template-columns:auto 1fr;gap:36px;margin-bottom:56px;align-items:end}
+  .s-num{
+    width:104px;height:104px;background:var(--ink);color:var(--paper);
+    border:var(--border-thick);box-shadow:var(--shadow);
+    transform:rotate(-2deg);align-self:start;margin-top:8px;position:relative;
+    display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;
+    padding:10px 12px 8px;
+  }
+  .s-num::after{content:'²';position:absolute;top:-8px;right:-10px;width:24px;height:24px;background:var(--tomato);color:var(--white);border:3px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:13px;line-height:1;box-shadow:2px 2px 0 var(--ink)}
+  .s-num .num{font-family:var(--display);font-size:48px;line-height:0.85;letter-spacing:-0.02em}
+  .s-num small{font-size:9.5px;font-family:var(--mono);font-weight:700;letter-spacing:0.14em;margin-bottom:6px;color:var(--lime);text-transform:uppercase}
+  .s-title{font-family:var(--display);font-size:clamp(36px,4.6vw,64px);line-height:0.96;text-transform:uppercase;letter-spacing:-0.015em;max-width:980px}
+  .s-title .hi{background:var(--lime);padding:0 8px;display:inline-block;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transform:rotate(-1deg)}
+  .s-sub{font-size:17px;margin-top:18px;max-width:680px;line-height:1.5;font-weight:500}
+
+  /* SUBHEAD */
+  h3.sub{font-family:var(--display);font-size:24px;text-transform:uppercase;line-height:1;margin-bottom:24px;letter-spacing:-0.005em}
+  h3.sub::before{content:'§';color:var(--tomato);font-family:var(--display);margin-right:10px}
+
+  /* ── LOGO SECTION ── */
+  .logo-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;margin-bottom:48px}
+  .logo-stage{
+    background:var(--white);border:var(--border-thick);box-shadow:var(--shadow-lg);
+    padding:64px 48px;display:grid;place-items:center;min-height:340px;position:relative;
+  }
+  .logo-stage.lime{background:var(--lime)}
+  .logo-stage.ink{background:var(--ink)}
+  .logo-stage.tomato{background:var(--tomato)}
+  .logo-stage::before{
+    content:attr(data-label);
+    position:absolute;top:14px;left:14px;
+    font-family:var(--mono);font-size:10px;font-weight:700;
+    text-transform:uppercase;letter-spacing:0.1em;
+    background:var(--ink);color:var(--lime);padding:4px 8px;
+  }
+
+  /* The XL logo lockup */
+  .logo-xl{display:inline-flex;align-items:center;gap:24px}
+  .logo-xl .glyph{
+    width:120px;height:120px;background:var(--lime);border:5px solid var(--ink);
+    display:grid;place-items:center;font-family:var(--display);font-size:48px;line-height:1;
+    box-shadow:8px 8px 0 var(--ink);transform:rotate(-2deg);position:relative;
+  }
+  .logo-xl .glyph::after{
+    content:'²';position:absolute;top:-8px;right:-12px;
+    width:42px;height:42px;background:var(--tomato);color:var(--white);
+    border:5px solid var(--ink);border-radius:50%;
+    display:grid;place-items:center;font-family:var(--display);font-size:24px;line-height:1;
+    box-shadow:4px 4px 0 var(--ink);
+  }
+  .logo-xl .word{font-family:var(--display);font-size:64px;text-transform:uppercase;letter-spacing:-0.025em;line-height:0.95}
+  .logo-stage.ink .logo-xl .word{color:var(--paper)}
+  .logo-stage.ink .logo-xl .glyph{background:var(--lime)}
+  .logo-stage.tomato .logo-xl .word{color:var(--white)}
+  .logo-stage.tomato .logo-xl .glyph{background:var(--white)}
+  .logo-stage.tomato .logo-xl .glyph::after{background:var(--ink);color:var(--lime)}
+
+  .logo-meta{
+    background:var(--white);border:var(--border-thick);box-shadow:var(--shadow);
+    padding:24px;display:flex;flex-direction:column;gap:14px;
+  }
+  .logo-meta h4{font-family:var(--display);font-size:18px;text-transform:uppercase;line-height:1.05}
+  .logo-meta dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:13px;border-top:3px solid var(--ink);padding-top:14px}
+  .logo-meta dt{font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em}
+  .logo-meta dd{font-weight:600}
+  .logo-meta dd code{font-family:var(--mono);font-size:11px;background:var(--paper-2);padding:2px 6px;border:1.5px solid var(--ink)}
+
+  .logo-variants{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:48px}
+  .logo-variant{
+    background:var(--white);border:var(--border-thick);
+    box-shadow:var(--shadow);padding:32px 18px;
+    display:flex;flex-direction:column;align-items:center;gap:14px;
+    min-height:200px;justify-content:space-between;
+  }
+  .logo-variant.lime{background:var(--lime)}
+  .logo-variant.ink{background:var(--ink);color:var(--paper)}
+  .logo-variant.paper{background:var(--paper-2)}
+  .logo-variant .label{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;text-align:center}
+  .logo-variant.ink .label{color:var(--lime)}
+
+  /* mark only */
+  .mark-md{width:64px;height:64px;background:var(--lime);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:24px;line-height:1;box-shadow:4px 4px 0 var(--ink);transform:rotate(-2deg);position:relative}
+  .mark-md::after{content:'²';position:absolute;top:-4px;right:-6px;width:22px;height:22px;background:var(--tomato);color:var(--white);border:2.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:12px;line-height:1;box-shadow:2px 2px 0 var(--ink)}
+  .logo-variant.ink .mark-md{background:var(--lime)}
+
+  /* horizontal lockup */
+  .lockup-h{display:inline-flex;align-items:center;gap:14px}
+  .lockup-h .glyph{width:44px;height:44px;background:var(--lime);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:16px;line-height:1;box-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg);position:relative}
+  .lockup-h .glyph::after{content:'²';position:absolute;top:-3px;right:-5px;width:16px;height:16px;background:var(--tomato);color:var(--white);border:2px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:9px;line-height:1}
+  .lockup-h .word{font-family:var(--display);font-size:22px;text-transform:uppercase;letter-spacing:-0.02em;line-height:1}
+  .logo-variant.ink .lockup-h .word{color:var(--paper)}
+
+  /* stacked lockup */
+  .lockup-v{display:inline-flex;flex-direction:column;align-items:center;gap:12px}
+  .lockup-v .glyph{width:64px;height:64px;background:var(--lime);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:24px;line-height:1;box-shadow:4px 4px 0 var(--ink);transform:rotate(-2deg);position:relative}
+  .lockup-v .glyph::after{content:'²';position:absolute;top:-4px;right:-6px;width:22px;height:22px;background:var(--tomato);color:var(--white);border:2.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:12px;line-height:1;box-shadow:2px 2px 0 var(--ink)}
+  .lockup-v .word{font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:-0.02em;line-height:1}
+  .logo-variant.ink .lockup-v .word{color:var(--paper)}
+
+  /* Construction grid */
+  .construction{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:48px}
+  .construction-stage{
+    background:var(--white);border:var(--border-thick);box-shadow:var(--shadow);
+    padding:48px;position:relative;display:grid;place-items:center;min-height:380px;
+    background-image:linear-gradient(rgba(0,0,0,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.06) 1px,transparent 1px);
+    background-size:24px 24px;
+  }
+  .construction-explainer{display:flex;flex-direction:column;gap:16px}
+  .construction-explainer .item{padding:16px 18px;border:3px solid var(--ink);background:var(--white);box-shadow:4px 4px 0 var(--ink);display:grid;grid-template-columns:32px 1fr;gap:14px;align-items:start}
+  .construction-explainer .item .idx{font-family:var(--display);font-size:18px;width:28px;height:28px;background:var(--ink);color:var(--lime);display:grid;place-items:center;line-height:1}
+  .construction-explainer .item .body{font-size:14px;line-height:1.5;font-weight:500}
+  .construction-explainer .item .body strong{display:block;font-family:var(--display);font-size:14px;text-transform:uppercase;margin-bottom:4px;line-height:1}
+
+  /* misuse */
+  .misuse-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px}
+  .misuse{
+    background:var(--white);border:var(--border-thick);box-shadow:var(--shadow);
+    padding:30px 18px;display:flex;flex-direction:column;align-items:center;gap:14px;
+    position:relative;min-height:200px;justify-content:space-between;
+  }
+  .misuse::before{
+    content:'✗';position:absolute;top:-14px;right:-14px;
+    width:36px;height:36px;background:var(--tomato);color:var(--white);
+    border:3px solid var(--ink);border-radius:50%;
+    display:grid;place-items:center;font-family:var(--display);font-size:18px;line-height:1;
+    box-shadow:3px 3px 0 var(--ink);
+  }
+  .misuse .label{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;text-align:center;line-height:1.4}
+  .misuse .demo{filter:none}
+
+  /* ── COLOR ── */
+  .color-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:32px}
+  .swatch{border:var(--border-thick);box-shadow:var(--shadow);position:relative;display:flex;flex-direction:column;min-height:220px}
+  .swatch .top{flex:1;padding:24px;position:relative}
+  .swatch .top .role{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em}
+  .swatch .top .name{font-family:var(--display);font-size:24px;text-transform:uppercase;line-height:1;margin-top:8px}
+  .swatch .meta{padding:14px 18px;border-top:3px solid var(--ink);background:var(--white);font-family:var(--mono);font-size:11px;font-weight:600;display:flex;flex-direction:column;gap:4px}
+  .swatch .meta code{font-weight:700}
+  .swatch.ink .top{background:var(--ink);color:var(--paper)}
+  .swatch.ink .top .role{color:var(--lime)}
+  .swatch.paper .top{background:var(--paper)}
+  .swatch.paper2 .top{background:var(--paper-2)}
+  .swatch.lime .top{background:var(--lime)}
+  .swatch.tomato .top{background:var(--tomato);color:var(--white)}
+  .swatch.tomato .top .role{color:var(--ink);background:var(--white);padding:2px 6px;border:2px solid var(--ink);display:inline-block}
+  .swatch.sky .top{background:var(--sky)}
+  .swatch.grape .top{background:var(--grape)}
+  .swatch.rose .top{background:var(--rose)}
+  .swatch.white .top{background:var(--white)}
+
+  .pairings{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:24px}
+  .pairing{border:var(--border-thick);box-shadow:var(--shadow);padding:32px;font-family:var(--display);font-size:22px;text-transform:uppercase;line-height:1.05;text-align:center;min-height:160px;display:grid;place-items:center}
+  .pairing.do::before,.pairing.dont::before{content:attr(data-label);position:absolute;top:-12px;left:14px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.08em;padding:4px 8px;border:2px solid var(--ink)}
+  .pairing{position:relative}
+  .pairing.do::before{background:var(--lime);color:var(--ink)}
+  .pairing.dont::before{background:var(--tomato);color:var(--white)}
+  .ratio-list{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;font-weight:600}
+  .ratio-list span{padding:6px 12px;border:2.5px solid var(--ink);background:var(--white);box-shadow:2px 2px 0 var(--ink)}
+
+  /* ── TYPE ── */
+  .type-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+  .type-card{background:var(--white);border:var(--border-thick);box-shadow:var(--shadow);padding:32px}
+  .type-card.lime{background:var(--lime)}
+  .type-card.sky{background:var(--sky)}
+  .type-card .role{font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:4px 10px;background:var(--ink);color:var(--paper);display:inline-block;margin-bottom:18px}
+  .type-card .name{font-family:var(--display);font-size:48px;text-transform:uppercase;line-height:0.9;letter-spacing:-0.02em;margin-bottom:18px}
+  .type-card .alphabet{font-size:14px;line-height:1.4;font-weight:500;margin-bottom:14px;padding-bottom:14px;border-bottom:3px solid var(--ink)}
+  .type-card.serif-name{font-family:var(--sans)}
+  .type-card.mono-name .name{font-family:var(--mono);text-transform:none}
+  .type-card .specs{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px;font-family:var(--mono)}
+  .type-card .specs dt{font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:10.5px}
+  .type-card .specs dd{font-weight:500}
+
+  .scale-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);border:var(--border-thick);box-shadow:var(--shadow);font-size:14px;margin-bottom:24px}
+  .scale-table th,.scale-table td{padding:14px 16px;border-bottom:3px solid var(--ink);text-align:left;vertical-align:middle}
+  .scale-table th{font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;background:var(--paper-2)}
+  .scale-table th:not(:last-child),.scale-table td:not(:last-child){border-right:3px solid var(--ink)}
+  .scale-table tbody tr:last-child td{border-bottom:none}
+  .scale-table .demo{font-family:var(--display);text-transform:uppercase;line-height:0.95;letter-spacing:-0.01em}
+  .scale-table .demo.body{font-family:var(--sans);text-transform:none;font-weight:500}
+  .scale-table .demo.mono{font-family:var(--mono);text-transform:none;font-size:13px;font-weight:600}
+  .scale-table .name{font-family:var(--display);font-size:13px;text-transform:uppercase}
+  .scale-table .px{font-family:var(--mono);font-size:11px;font-weight:600}
+
+  /* ── VOICE ── */
+  .voice-pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:32px}
+  .voice-pillar{padding:24px;border:var(--border-thick);box-shadow:var(--shadow)}
+  .voice-pillar:nth-child(1){background:var(--lime)}
+  .voice-pillar:nth-child(2){background:var(--sky)}
+  .voice-pillar:nth-child(3){background:var(--grape)}
+  .voice-pillar:nth-child(4){background:var(--rose)}
+  .voice-pillar h4{font-family:var(--display);font-size:22px;text-transform:uppercase;line-height:1;margin-bottom:10px}
+  .voice-pillar p{font-size:14px;line-height:1.5;font-weight:500}
+  .voice-do-dont{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .voice-list{padding:24px;border:var(--border-thick);box-shadow:var(--shadow);background:var(--white)}
+  .voice-list h4{font-family:var(--display);font-size:18px;text-transform:uppercase;margin-bottom:14px;padding-bottom:10px;border-bottom:3px solid var(--ink);display:flex;align-items:center;gap:10px}
+  .voice-list h4 .tag{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 8px;background:var(--ink);color:var(--lime);letter-spacing:0.06em}
+  .voice-list.dont h4 .tag{background:var(--tomato);color:var(--white)}
+  .voice-list ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .voice-list li{padding:10px 12px;border:2.5px solid var(--ink);background:var(--paper);font-size:13.5px;line-height:1.4;font-weight:500}
+  .voice-list.do li::before{content:'✓ ';font-family:var(--display);color:var(--ink)}
+  .voice-list.dont li::before{content:'✗ ';font-family:var(--display);color:var(--tomato)}
+  .voice-list.dont li{background:var(--paper-2)}
+
+  /* ── EMAIL SIGNATURE ── */
+  .email-stage{
+    background:#EDEDED;border:var(--border-thick);box-shadow:var(--shadow);
+    padding:32px;margin-bottom:32px;
+    background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px);
+    background-size:100% 24px;
+  }
+  .email-stage::before{content:'GMAIL · APPLE MAIL · OUTLOOK PREVIEW';display:block;font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin-bottom:24px}
+  .email-body{background:var(--white);border:1px solid #ccc;padding:32px;font-family:Helvetica,Arial,sans-serif;font-size:14px;line-height:1.55;color:#222;max-width:680px}
+  .email-body .from{font-size:12px;color:#777;margin-bottom:14px}
+  .email-body .from b{color:#222}
+  .email-body p{margin-bottom:14px}
+  .email-sig{margin-top:24px;padding-top:0;border-top:none}
+  /* Real, copyable signature — uses tables for email-client compat */
+  .email-sig table{border-collapse:collapse}
+  .email-sig table td{vertical-align:top;padding:0}
+
+  .email-code{background:var(--ink);color:var(--paper);padding:24px;border:var(--border-thick);box-shadow:var(--shadow);font-family:var(--mono);font-size:12px;line-height:1.65;overflow-x:auto;margin-bottom:32px;white-space:pre}
+  .email-code .tag{color:var(--sky)}
+  .email-code .attr{color:var(--lime)}
+  .email-code .str{color:var(--rose)}
+  .email-code .com{color:#777}
+  .copy-btn{position:relative;float:right;margin-top:-8px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:6px 10px;background:var(--lime);color:var(--ink);border:2px solid var(--lime);cursor:pointer;box-shadow:2px 2px 0 var(--lime)}
+  .copy-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--lime)}
+
+  .email-fields{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:32px}
+  .email-field{padding:20px;background:var(--white);border:var(--border-thick);box-shadow:var(--shadow)}
+  .email-field h5{font-family:var(--display);font-size:14px;text-transform:uppercase;margin-bottom:6px}
+  .email-field code{display:block;font-family:var(--mono);font-size:13px;font-weight:600;background:var(--paper-2);padding:10px 12px;border:2px solid var(--ink)}
+
+  /* ── SOCIAL ── */
+  .social-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px}
+  .social-card{background:var(--white);border:var(--border-thick);box-shadow:var(--shadow-lg);overflow:hidden}
+  .social-card .head{padding:14px 18px;border-bottom:3px solid var(--ink);font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;display:flex;justify-content:space-between;align-items:center;background:var(--paper-2)}
+  .social-card .head svg{width:18px;height:18px}
+  .social-banner{height:130px;position:relative;overflow:hidden;border-bottom:3px solid var(--ink);display:grid;place-items:center}
+  .social-banner.lime{background:var(--lime)}
+  .social-banner.tomato{background:var(--tomato)}
+  .social-banner.ink{background:var(--ink)}
+  .social-banner.lime::before,.social-banner.ink::before,.social-banner.tomato::before{
+    content:'';position:absolute;inset:0;
+    background-image:repeating-linear-gradient(45deg,transparent 0 30px,rgba(0,0,0,0.06) 30px 32px);
+  }
+  .social-banner.tomato::before{background-image:repeating-linear-gradient(45deg,transparent 0 30px,rgba(255,255,255,0.10) 30px 32px)}
+  .social-banner.ink::before{background-image:repeating-linear-gradient(45deg,transparent 0 30px,rgba(255,255,255,0.06) 30px 32px)}
+  .social-banner-h{position:relative;font-family:var(--display);font-size:28px;text-transform:uppercase;line-height:0.95;letter-spacing:-0.01em;text-align:center;padding:0 24px}
+  .social-banner.tomato .social-banner-h{color:var(--white)}
+  .social-banner.ink .social-banner-h{color:var(--paper)}
+  .social-banner-h em{font-style:normal;background:var(--white);color:var(--ink);padding:0 6px;border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);display:inline-block;transform:rotate(-2deg);margin:0 2px}
+  .social-banner.lime .social-banner-h em{background:var(--ink);color:var(--lime);box-shadow:3px 3px 0 var(--white)}
+
+  .social-profile{padding:18px;display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:center;border-bottom:3px solid var(--ink);position:relative}
+  .social-avatar{width:64px;height:64px;background:var(--lime);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:22px;line-height:1;box-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg);position:relative;margin-top:-32px}
+  .social-avatar::after{content:'²';position:absolute;top:-4px;right:-6px;width:22px;height:22px;background:var(--tomato);color:var(--white);border:2.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:11px;line-height:1;box-shadow:2px 2px 0 var(--ink)}
+  .social-profile .meta{padding-top:0}
+  .social-profile .meta .handle{font-family:var(--display);font-size:18px;text-transform:uppercase;line-height:1;margin-bottom:4px}
+  .social-profile .meta .at{font-family:var(--mono);font-size:11px;font-weight:600;color:#666}
+  .social-card .bio{padding:16px 18px;font-size:13.5px;line-height:1.5;font-weight:500}
+  .social-card .stats{display:flex;border-top:3px solid var(--ink);font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em}
+  .social-card .stats div{flex:1;padding:12px 14px;border-right:3px solid var(--ink);text-align:center}
+  .social-card .stats div:last-child{border-right:none}
+  .social-card .stats div b{display:block;font-family:var(--display);font-size:18px;color:var(--ink);text-transform:none;letter-spacing:0;margin-bottom:2px}
+
+  .social-bio-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);border:var(--border-thick);box-shadow:var(--shadow);font-size:14px;margin-bottom:24px}
+  .social-bio-table th,.social-bio-table td{padding:14px 16px;border-bottom:3px solid var(--ink);text-align:left;vertical-align:top}
+  .social-bio-table tbody tr:last-child td{border-bottom:none}
+  .social-bio-table th{font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;background:var(--paper-2);width:160px}
+  .social-bio-table th:not(:last-child),.social-bio-table td:not(:last-child){border-right:3px solid var(--ink)}
+  .social-bio-table td{font-weight:500;line-height:1.5}
+  .social-bio-table .ch{font-family:var(--mono);font-size:11px;background:var(--ink);color:var(--lime);padding:2px 6px;float:right}
+
+  /* ── DOWNLOAD STRIP ── */
+  .downloads{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:48px}
+  .dl{padding:20px;background:var(--white);border:var(--border-thick);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}
+  .dl:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink)}
+  .dl .ext{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.08em;background:var(--ink);color:var(--lime);padding:3px 7px;align-self:flex-start;text-transform:uppercase}
+  .dl h5{font-family:var(--display);font-size:16px;text-transform:uppercase;line-height:1.05}
+  .dl small{font-family:var(--mono);font-size:11px;color:#666}
+
+  /* FOOTER */
+  footer.foot{background:var(--ink);color:var(--paper);padding:48px 0;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;text-align:center}
+  footer.foot a{color:var(--lime);text-decoration:none}
+
+  /* RESPONSIVE */
+  @media (max-width:960px){
+    .wrap{padding:0 22px}
+    .toc{grid-template-columns:repeat(2,1fr)}
+    .toc a{border-bottom:3px solid var(--ink)}
+    .logo-grid,.construction,.email-fields,.type-grid,.voice-do-dont{grid-template-columns:1fr}
+    .logo-variants,.misuse-grid{grid-template-columns:repeat(2,1fr)}
+    .color-grid{grid-template-columns:repeat(2,1fr)}
+    .voice-pillars,.social-grid,.downloads,.pairings{grid-template-columns:1fr}
+    .s-head{grid-template-columns:1fr}
+  }
+
+  @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap nav-inner">
+    <a href="AllSquared - Neobrutalism.html" class="as-mark"><span class="glyph">AS</span><span class="word">AllSquared</span></a>
+    <a href="AllSquared - Neobrutalism.html" class="nav-back">← Back to site</a>
+  </div>
+</nav>
+
+<section class="title-block">
+  <div class="wrap">
+    <div class="doc-meta">
+      <span class="pill ink"><span style="display:inline-block;width:8px;height:8px;background:var(--lime);border-radius:50%"></span>Brand Guide</span>
+      <span class="pill">Version 1.0 · 2026</span>
+      <span class="pill lime">For internal use</span>
+    </div>
+    <h1 class="doc-title">One mark.<br>One <span class="stamp">voice.</span><br>No exceptions.</h1>
+    <p class="doc-lede">This guide governs everything AllSquared puts into the world — logo, colour, type, voice, email and social. Stick to it. Where it doesn't cover something, behave consistently with what it does cover.</p>
+
+    <nav class="toc">
+      <a href="#logo"><small>01</small>Logo</a>
+      <a href="#color"><small>02</small>Colour</a>
+      <a href="#type"><small>03</small>Type</a>
+      <a href="#voice"><small>04</small>Voice</a>
+      <a href="#applied"><small>05</small>Applied</a>
+    </nav>
+  </div>
+</section>
+
+<!-- LOGO -->
+<section class="s" id="logo">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num"><small>The mark</small><span class="num">01</span></div>
+      <div>
+        <h2 class="s-title">The framed <span class="hi">squared</span> sigil.</h2>
+        <p class="s-sub">A black-bordered tile holding the letters AS, with a tomato ² stamp orbiting the upper-right corner. The mark is a stamp — flat, confident, slightly off-axis, casting a hard offset shadow. It is never cleaned up, softened, or made polite.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Primary lockup</h3>
+    <div class="logo-grid">
+      <div class="logo-stage" data-label="Primary · paper">
+        <div class="logo-xl"><span class="glyph">AS</span><span class="word">AllSquared</span></div>
+      </div>
+      <div class="logo-meta">
+        <h4>Anatomy</h4>
+        <dl>
+          <dt>Mark</dt><dd>Lime fill, 5px ink stroke, 8px offset shadow, rotated <code>−2°</code></dd>
+          <dt>Stamp</dt><dd>Tomato circle, 5px ink stroke, contains display "²"</dd>
+          <dt>Wordmark</dt><dd>Archivo Black, ink, <code>letter-spacing:−0.025em</code></dd>
+          <dt>Spacing</dt><dd>Mark-to-word gap = 0.2× mark width</dd>
+          <dt>Min size</dt><dd>Mark <code>24px</code> · Lockup <code>120px</code> wide</dd>
+        </dl>
+      </div>
+    </div>
+
+    <h3 class="sub">Lockup variants</h3>
+    <div class="logo-variants">
+      <div class="logo-variant"><span class="mark-md">AS</span><span class="label">01 · Mark only<br>App icon · favicon</span></div>
+      <div class="logo-variant lime"><span class="lockup-h"><span class="glyph">AS</span><span class="word">AllSquared</span></span><span class="label">02 · Horizontal<br>Default · web · email</span></div>
+      <div class="logo-variant paper"><span class="lockup-v"><span class="glyph">AS</span><span class="word">AllSquared</span></span><span class="label">03 · Stacked<br>Square crops · merch</span></div>
+      <div class="logo-variant ink"><span class="lockup-h"><span class="glyph">AS</span><span class="word">AllSquared</span></span><span class="label">04 · On dark<br>Mark stays lime</span></div>
+    </div>
+
+    <h3 class="sub">Construction &amp; clear space</h3>
+    <div class="construction">
+      <div class="construction-stage">
+        <div style="position:relative">
+          <div style="position:absolute;inset:-48px;border:2px dashed rgba(0,0,0,0.3);pointer-events:none"></div>
+          <div style="position:absolute;top:-72px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.08em">CLEAR SPACE = 0.5× MARK HEIGHT</div>
+          <div class="logo-xl" style="transform:scale(0.85)"><span class="glyph">AS</span><span class="word">AllSquared</span></div>
+        </div>
+      </div>
+      <div class="construction-explainer">
+        <div class="item"><span class="idx">1</span><span class="body"><strong>Clear space</strong>Always leave at least 0.5× the mark's height of clear space on every side. Nothing — text, image, edge — enters this zone.</span></div>
+        <div class="item"><span class="idx">2</span><span class="body"><strong>The rotation</strong>The mark sits at exactly −2°. Never straighten it. Never increase the angle. The shadow always falls bottom-right.</span></div>
+        <div class="item"><span class="idx">3</span><span class="body"><strong>The stamp</strong>The ² stamp orbits the upper-right corner with a small overhang. It is part of the mark — never crop, recolour or omit it.</span></div>
+        <div class="item"><span class="idx">4</span><span class="body"><strong>Minimum sizes</strong>Mark alone: 24×24px digital, 8mm print. Horizontal lockup: 120px wide digital, 32mm print. Below this, use the mark only.</span></div>
+      </div>
+    </div>
+
+    <h3 class="sub">Misuse — never do this</h3>
+    <div class="misuse-grid">
+      <div class="misuse"><span class="mark-md" style="transform:rotate(0)">AS</span><span class="label">Don't straighten the mark</span></div>
+      <div class="misuse"><span class="mark-md" style="background:var(--grape);box-shadow:4px 4px 0 var(--ink)">AS</span><span class="label">Don't recolour the tile (lime only)</span></div>
+      <div class="misuse"><span class="mark-md" style="border-radius:50%;transform:rotate(-2deg)">AS</span><span class="label">Don't round the corners</span></div>
+      <div class="misuse"><span class="mark-md" style="box-shadow:none">AS</span><span class="label">Don't drop the offset shadow</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COLOR -->
+<section class="s alt" id="color">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num"><small>The palette</small><span class="num">02</span></div>
+      <div>
+        <h2 class="s-title">Cream paper. Ink rule. <span class="hi">Lime stamp.</span></h2>
+        <p class="s-sub">Three colours do most of the work — paper, ink, lime. Tomato is the single hot accent for the stamp, the warning, the final CTA. Sky, grape and rose are quiet supporting players for category and rhythm. Don't introduce new hues.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Foundation</h3>
+    <div class="color-grid">
+      <div class="swatch ink"><div class="top"><div class="role">Ink · 100%</div><div class="name">Black</div></div><div class="meta"><code>HEX #000000</code><code>RGB 0 0 0</code><code>Pantone Black 6 C</code></div></div>
+      <div class="swatch paper"><div class="top"><div class="role">Paper · base</div><div class="name">Cream</div></div><div class="meta"><code>HEX #FFF8EC</code><code>RGB 255 248 236</code><code>Background only</code></div></div>
+      <div class="swatch lime"><div class="top"><div class="role">Primary accent</div><div class="name">Lime</div></div><div class="meta"><code>HEX #C9F546</code><code>RGB 201 245 70</code><code>The brand colour</code></div></div>
+      <div class="swatch tomato"><div class="top"><div class="role">Hot accent</div><div class="name">Tomato</div></div><div class="meta"><code>HEX #FF5B2E</code><code>RGB 255 91 46</code><code>Stamp · alert · CTA</code></div></div>
+    </div>
+
+    <h3 class="sub">Supporting</h3>
+    <div class="color-grid">
+      <div class="swatch sky"><div class="top"><div class="role">Cool support</div><div class="name">Sky</div></div><div class="meta"><code>HEX #5BB7FF</code><code>RGB 91 183 255</code></div></div>
+      <div class="swatch grape"><div class="top"><div class="role">Cool support</div><div class="name">Grape</div></div><div class="meta"><code>HEX #B58CFF</code><code>RGB 181 140 255</code></div></div>
+      <div class="swatch rose"><div class="top"><div class="role">Warm support</div><div class="name">Rose</div></div><div class="meta"><code>HEX #FFB7C7</code><code>RGB 255 183 199</code></div></div>
+      <div class="swatch paper2"><div class="top"><div class="role">Paper · alt</div><div class="name">Honey</div></div><div class="meta"><code>HEX #FFE9B0</code><code>RGB 255 233 176</code></div></div>
+    </div>
+
+    <h3 class="sub">Usage ratios &amp; pairings</h3>
+    <div class="ratio-list" style="margin-bottom:24px">
+      <span>Paper 60%</span><span>Ink 22%</span><span>Lime 10%</span><span>Tomato 4%</span><span>Supporting 4%</span>
+    </div>
+    <div class="pairings">
+      <div class="pairing do" data-label="Approved" style="background:var(--paper);color:var(--ink)">Ink on paper. The default rule.</div>
+      <div class="pairing do" data-label="Approved" style="background:var(--lime);color:var(--ink)">Ink on lime. The brand voice.</div>
+      <div class="pairing dont" data-label="Avoid" style="background:var(--lime);color:var(--white)">White on lime. No contrast.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPE -->
+<section class="s" id="type">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num"><small>The type</small><span class="num">03</span></div>
+      <div>
+        <h2 class="s-title">Three faces. <span class="hi">No exceptions.</span></h2>
+        <p class="s-sub">Archivo Black for headlines, Space Grotesk for body, JetBrains Mono for numerals, IDs and meta. No script. No serif. No system fallbacks except as final-line backup. Ship the fonts; don't rely on the user's machine.</p>
+      </div>
+    </div>
+
+    <div class="type-grid">
+      <div class="type-card lime">
+        <span class="role">Display · headlines</span>
+        <div class="name">Archivo Black</div>
+        <div class="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>0123456789 &amp;.,:?!—</div>
+        <dl class="specs">
+          <dt>Weight</dt><dd>900 (single weight)</dd>
+          <dt>Tracking</dt><dd>−0.022em headlines · −0.005em sub</dd>
+          <dt>Casing</dt><dd>UPPERCASE only</dd>
+          <dt>Use for</dt><dd>Hero, section titles, card heads, ribbons</dd>
+        </dl>
+      </div>
+      <div class="type-card">
+        <span class="role">Body · UI</span>
+        <div class="name" style="font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.01em">Space Grotesk</div>
+        <div class="alphabet">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll<br>0123456789 — the quick brown fox</div>
+        <dl class="specs">
+          <dt>Weights</dt><dd>500 default · 600 emphasis · 700 strong</dd>
+          <dt>Size range</dt><dd>13 — 19 px</dd>
+          <dt>Line-height</dt><dd>1.45 — 1.55</dd>
+          <dt>Use for</dt><dd>Body copy, lists, buttons, lede</dd>
+        </dl>
+      </div>
+      <div class="type-card sky mono-name">
+        <span class="role">Mono · meta · numerals</span>
+        <div class="name">JetBrains Mono</div>
+        <div class="alphabet">£100 + 1% · AS-DEMO-0418<br>FCA · SRA · 04-Apr · 18:42</div>
+        <dl class="specs">
+          <dt>Weights</dt><dd>500 default · 700 strong</dd>
+          <dt>Tracking</dt><dd>0.06 — 0.12em uppercase</dd>
+          <dt>Casing</dt><dd>UPPER for labels · normal for amounts/refs</dd>
+          <dt>Use for</dt><dd>Pills, badges, prices, references, timestamps</dd>
+        </dl>
+      </div>
+      <div class="type-card paper" style="background:var(--paper-2)">
+        <span class="role">The single rule</span>
+        <div class="name" style="font-family:'Archivo Black',sans-serif">No italics</div>
+        <div class="alphabet">Italic letterforms are forbidden in all three faces. Emphasis comes from a coloured highlight, a stamp, or a weight change — never a slant.</div>
+        <dl class="specs">
+          <dt>Emphasis</dt><dd>Lime highlight · weight 700 · all-caps display</dd>
+          <dt>Quotation</dt><dd>Use weight not italic for citation</dd>
+        </dl>
+      </div>
+    </div>
+
+    <h3 class="sub">Type scale</h3>
+    <table class="scale-table">
+      <thead><tr><th>Role</th><th>Family</th><th>Size</th><th>Specimen</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Hero H1</td><td>Archivo Black</td><td class="px">clamp(56, 7.5vw, 108) / 0.92</td><td><div class="demo" style="font-size:48px">Hard offset</div></td></tr>
+        <tr><td class="name">Section H2</td><td>Archivo Black</td><td class="px">clamp(36, 4.6vw, 64) / 0.96</td><td><div class="demo" style="font-size:32px">Built for serious work</div></td></tr>
+        <tr><td class="name">Card H3</td><td>Archivo Black</td><td class="px">22–24 / 1.0</td><td><div class="demo" style="font-size:22px">Paid same day</div></td></tr>
+        <tr><td class="name">Lede</td><td>Space Grotesk · 500</td><td class="px">19 / 1.5</td><td><div class="demo body" style="font-size:17px">It's the 21st century. A serious tradesman shouldn't be writing reminders.</div></td></tr>
+        <tr><td class="name">Body</td><td>Space Grotesk · 500</td><td class="px">15–17 / 1.5</td><td><div class="demo body" style="font-size:15px">FCA-authorised escrow for every deal, ring-fenced under client-money rules.</div></td></tr>
+        <tr><td class="name">Pill / meta</td><td>JetBrains Mono · 700</td><td class="px">11 / 1.0 / 0.08em</td><td><div class="demo mono">FCA ESCROW · SRA SOLICITORS</div></td></tr>
+        <tr><td class="name">Reference</td><td>JetBrains Mono · 600</td><td class="px">11–13</td><td><div class="demo mono">№ AS-DEMO-0418 · £88,000.00</div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- VOICE -->
+<section class="s alt" id="voice">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num"><small>The voice</small><span class="num">04</span></div>
+      <div>
+        <h2 class="s-title">Confident. Plain. <span class="hi">Slightly British.</span></h2>
+        <p class="s-sub">We talk to grown-up professionals about money. Plain English, short sentences, dry edge. Never breezy, never preachy, never AI-flavoured. If you'd be embarrassed to read it aloud to a 50-year-old fit-out contractor, rewrite it.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Four voice pillars</h3>
+    <div class="voice-pillars">
+      <div class="voice-pillar"><h4>Plain</h4><p>Boring words for serious things. "Funds release on approval" — not "frictionless capital movement."</p></div>
+      <div class="voice-pillar"><h4>Direct</h4><p>Short sentences. Active verbs. We say what we do and what we don't. We never bury the answer.</p></div>
+      <div class="voice-pillar"><h4>Dry</h4><p>One eyebrow always slightly raised. We're entitled to an opinion about late payment because we built a business around fixing it.</p></div>
+      <div class="voice-pillar"><h4>Specific</h4><p>Real numbers, real deals, real timestamps. £88,000. 72 hours. 04-Apr 18:42. Never "fast" — say how fast.</p></div>
+    </div>
+
+    <h3 class="sub">Do &amp; don't</h3>
+    <div class="voice-do-dont">
+      <div class="voice-list do">
+        <h4><span class="tag">Write this</span></h4>
+        <ul>
+          <li>"Funds release on approval — typically the same day."</li>
+          <li>"FCA-authorised escrow. Ring-fenced. Yours either way."</li>
+          <li>"You did the work. You sent the invoice. The chase shouldn't be the job."</li>
+          <li>"Most disputes resolve at the evidence stage — because the evidence exists."</li>
+          <li>"One platform fee. Per deal. No cut of your future work."</li>
+        </ul>
+      </div>
+      <div class="voice-list dont">
+        <h4><span class="tag">Not this</span></h4>
+        <ul>
+          <li>"Revolutionising the way Britain pays." (Empty.)</li>
+          <li>"Empower your business with frictionless cashflow." (Slop.)</li>
+          <li>"Welcome to the future of work!" (Wrong audience.)</li>
+          <li>"Our AI-powered platform leverages…" (Stop.)</li>
+          <li>"Lightning-fast." (Say the actual time.)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLIED — EMAIL + SOCIAL -->
+<section class="s" id="applied">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num"><small>Applied</small><span class="num">05</span></div>
+      <div>
+        <h2 class="s-title">Email signature &amp; <span class="hi">social basics.</span></h2>
+        <p class="s-sub">The system in the wild — the two surfaces every team member touches every day. Use exactly these. Don't roll your own.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL SIGNATURE -->
+    <h3 class="sub">Email signature — preview</h3>
+    <div class="email-stage">
+      <div class="email-body">
+        <div class="from"><b>From:</b> Maya Holloway &lt;maya@allsquared.co&gt;<br><b>Subject:</b> Re: Hackney Rd fit-out — milestone 4 sign-off</div>
+        <p>Hi James,</p>
+        <p>Confirmed — milestone 4 funds released to Hartley &amp; Sons at 09:14 today. Reference <b>AS-DEMO-0418-M04</b>. The 72-hour evidence window closed clean, no flags raised, so the release was automatic. Next milestone is scheduled for 18 April.</p>
+        <p>Anything else needed from our side, just shout.</p>
+        <p>Best,<br>Maya</p>
+
+        <!-- Real, copyable signature — table-based for email clients -->
+        <div class="email-sig">
+          <table cellpadding="0" cellspacing="0" border="0" style="font-family:Helvetica,Arial,sans-serif;color:#000">
+            <tr>
+              <td style="padding-right:16px;vertical-align:top">
+                <!-- Mark, rendered with table cells for email-client compat -->
+                <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse">
+                  <tr>
+                    <td style="width:48px;height:48px;background:#C9F546;border:3px solid #000;font-family:'Archivo Black',Impact,sans-serif;font-size:16px;color:#000;text-align:center;vertical-align:middle;line-height:48px;letter-spacing:-0.02em">AS²</td>
+                  </tr>
+                </table>
+              </td>
+              <td style="vertical-align:top;border-left:3px solid #000;padding-left:16px">
+                <div style="font-family:'Archivo Black',Impact,sans-serif;font-size:14px;color:#000;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:2px">Maya Holloway</div>
+                <div style="font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#000;font-weight:600;margin-bottom:8px">Head of Operations · AllSquared</div>
+                <div style="font-family:'Courier New',monospace;font-size:11px;color:#000;line-height:1.5">
+                  +44 (0)20 4538 7212<br>
+                  maya@allsquared.co<br>
+                  <a href="https://allsquared.co" style="color:#000;text-decoration:underline">allsquared.co</a>
+                </div>
+                <div style="margin-top:10px;padding:5px 8px;display:inline-block;background:#000;color:#C9F546;font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.1em;font-weight:700">FCA ESCROW · SRA SOLICITORS</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub">Email signature — copy/paste HTML</h3>
+    <div class="email-code"><button class="copy-btn" onclick="copySig()">Copy</button><span class="com">&lt;!-- AllSquared email signature · 2026 --&gt;</span>
+<span class="tag">&lt;table</span> <span class="attr">cellpadding</span>=<span class="str">"0"</span> <span class="attr">cellspacing</span>=<span class="str">"0"</span> <span class="attr">border</span>=<span class="str">"0"</span> <span class="attr">style</span>=<span class="str">"font-family:Helvetica,Arial,sans-serif"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;tr&gt;&lt;td</span> <span class="attr">style</span>=<span class="str">"padding-right:16px;vertical-align:top"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;table</span> <span class="attr">cellpadding</span>=<span class="str">"0"</span> <span class="attr">cellspacing</span>=<span class="str">"0"</span><span class="tag">&gt;&lt;tr&gt;&lt;td</span>
+      <span class="attr">style</span>=<span class="str">"width:48px;height:48px;background:#C9F546;border:3px solid #000;</span>
+<span class="str">             font-family:Impact,sans-serif;font-size:16px;color:#000;</span>
+<span class="str">             text-align:center;line-height:48px;letter-spacing:-0.02em"</span><span class="tag">&gt;</span>AS²<span class="tag">&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</span>
+  <span class="tag">&lt;/td&gt;</span>
+  <span class="tag">&lt;td</span> <span class="attr">style</span>=<span class="str">"vertical-align:top;border-left:3px solid #000;padding-left:16px"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">style</span>=<span class="str">"font-family:Impact,sans-serif;font-size:14px;text-transform:uppercase"</span><span class="tag">&gt;</span>
+      [Full Name]
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">style</span>=<span class="str">"font-size:12px;font-weight:600"</span><span class="tag">&gt;</span>[Role] · AllSquared<span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">style</span>=<span class="str">"font-family:monospace;font-size:11px;line-height:1.5"</span><span class="tag">&gt;</span>
+      [Phone]<span class="tag">&lt;br&gt;</span>[email]@allsquared.co<span class="tag">&lt;br&gt;</span>
+      <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"https://allsquared.co"</span><span class="tag">&gt;</span>allsquared.co<span class="tag">&lt;/a&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">style</span>=<span class="str">"margin-top:10px;padding:5px 8px;display:inline-block;</span>
+<span class="str">                  background:#000;color:#C9F546;font-family:monospace;</span>
+<span class="str">                  font-size:9px;letter-spacing:0.1em;font-weight:700"</span><span class="tag">&gt;</span>
+      FCA ESCROW · SRA SOLICITORS
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="tag">&lt;/table&gt;</span></div>
+
+    <h3 class="sub">Filled fields — what to put where</h3>
+    <div class="email-fields">
+      <div class="email-field"><h5>Name</h5><code>FIRSTNAME LASTNAME</code></div>
+      <div class="email-field"><h5>Role line</h5><code>[Title] · AllSquared</code></div>
+      <div class="email-field"><h5>Phone format</h5><code>+44 (0)20 4538 7212</code></div>
+      <div class="email-field"><h5>Email format</h5><code>firstname@allsquared.co</code></div>
+      <div class="email-field"><h5>Compliance strip</h5><code>FCA ESCROW · SRA SOLICITORS</code></div>
+      <div class="email-field"><h5>URL — never bare</h5><code>allsquared.co (linked, never https://)</code></div>
+    </div>
+
+    <!-- SOCIAL -->
+    <h3 class="sub">Social profiles — banners &amp; avatars</h3>
+    <div class="social-grid">
+      <!-- LinkedIn -->
+      <div class="social-card">
+        <div class="head"><span>LinkedIn · Company page</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11.001 5.001A2.5 2.5 0 014.98 3.5zM3 9h4v12H3V9zm7 0h3.8v1.7h.05c.53-1 1.84-2.05 3.78-2.05 4.04 0 4.79 2.66 4.79 6.13V21h-4v-5.5c0-1.31-.02-3-1.83-3-1.83 0-2.11 1.43-2.11 2.91V21h-4V9z"/></svg></div>
+        <div class="social-banner lime"><div class="social-banner-h">Contract. Escrow. <em>Paid.</em></div></div>
+        <div class="social-profile">
+          <span class="social-avatar">AS</span>
+          <div class="meta"><div class="handle">AllSquared</div><div class="at">allsquared.co · London</div></div>
+        </div>
+        <div class="bio">FCA-authorised escrow + SRA-regulated contracts for serious UK B2B work. £5K–£1m+ deals. End the chase.</div>
+        <div class="stats"><div><b>1,200</b>followers</div><div><b>32</b>posts</div><div><b>15</b>team</div></div>
+      </div>
+
+      <!-- X / Twitter -->
+      <div class="social-card">
+        <div class="head"><span>X · Brand account</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
+        <div class="social-banner ink"><div class="social-banner-h" style="color:#FFF8EC">No more <em style="background:#C9F546;color:#000">careful</em> reminders.</div></div>
+        <div class="social-profile">
+          <span class="social-avatar">AS</span>
+          <div class="meta"><div class="handle">AllSquared</div><div class="at">@allsquared</div></div>
+        </div>
+        <div class="bio">Escrow, contracts &amp; milestone payments for UK trades, agencies &amp; producers. Built so you never write that "just following up" email again.</div>
+        <div class="stats"><div><b>3,400</b>followers</div><div><b>410</b>posts</div><div><b>2026</b>since</div></div>
+      </div>
+
+      <!-- Instagram -->
+      <div class="social-card">
+        <div class="head"><span>Instagram · Editorial</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
+        <div class="social-banner tomato"><div class="social-banner-h">Money in. <em>Work out.</em></div></div>
+        <div class="social-profile">
+          <span class="social-avatar">AS</span>
+          <div class="meta"><div class="handle">allsquared.co</div><div class="at">@allsquared.co</div></div>
+        </div>
+        <div class="bio">Stories from the people who actually finished the work. UK only. London-built. allsquared.co</div>
+        <div class="stats"><div><b>2,100</b>followers</div><div><b>148</b>posts</div><div><b>9</b>highlights</div></div>
+      </div>
+    </div>
+
+    <h3 class="sub">Bio fields — character-counted</h3>
+    <table class="social-bio-table">
+      <tbody>
+        <tr><th>LinkedIn tagline</th><td>FCA-authorised escrow &amp; SRA-regulated contracts for serious UK professional services. <span class="ch">120 / 220</span></td></tr>
+        <tr><th>LinkedIn About</th><td>AllSquared is one platform for the four moving parts of a B2B deal: a solicitor-certified contract, FCA-authorised escrow, milestone payments released on verified proof, and dispute support from regulated solicitors when it matters. Built in London for trades, agencies, and producers moving £5K–£1m+. <span class="ch">355 / 2,000</span></td></tr>
+        <tr><th>X bio</th><td>Escrow, contracts &amp; milestone payments for UK trades, agencies &amp; producers. End the chase. <span class="ch">95 / 160</span></td></tr>
+        <tr><th>Instagram bio</th><td>One platform. Contract. Escrow. Verified pay.<br>UK B2B · London-built<br>allsquared.co <span class="ch">88 / 150</span></td></tr>
+        <tr><th>Profile photo</th><td>Lime AS² mark on cream paper, 400×400 minimum, no padding gymnastics — the mark fills the frame edge-to-edge with the ² stamp clipping the upper-right corner.</td></tr>
+        <tr><th>Banner sizes</th><td>LinkedIn 1584 × 396 · X 1500 × 500 · Instagram 1080 × 1080 (post) · Facebook 1640 × 624. Same headline format: short, stamped, ink+lime+tomato only.</td></tr>
+        <tr><th>Posting cadence</th><td>One headline post per fortnight. Real numbers, real customers, no animated decoration. Caption length 2–4 sentences max.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- DOWNLOADS -->
+    <h3 class="sub">Asset bundle</h3>
+    <div class="downloads">
+      <a href="#" class="dl"><span class="ext">SVG · 24 KB</span><h5>Logo pack</h5><small>Mark · horizontal · stacked, all colourways</small></a>
+      <a href="#" class="dl"><span class="ext">PNG · 320 KB</span><h5>Avatars + banners</h5><small>LinkedIn · X · Instagram · Facebook</small></a>
+      <a href="#" class="dl"><span class="ext">HTML · 4 KB</span><h5>Email signature</h5><small>Outlook · Apple Mail · Gmail tested</small></a>
+      <a href="#" class="dl"><span class="ext">PDF · 2 MB</span><h5>This guide</h5><small>Print-ready · 12 pages · A4</small></a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">© AllSquared Ltd · Brand guide v1.0 · 2026 · <a href="AllSquared - Neobrutalism.html">Back to site</a></div>
+</footer>
+
+<script>
+function copySig(){
+  const code = document.querySelector('.email-code').innerText.replace(/^Copy\s*/,'');
+  navigator.clipboard.writeText(code).then(()=>{
+    const btn = document.querySelector('.copy-btn');
+    const old = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    setTimeout(()=>btn.textContent = old, 1400);
+  });
+}
+</script>
+
+</body>
+</html>
