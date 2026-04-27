@@ -5,4 +5,4 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "allsquared-blog"
-database_id = "PLACEHOLDER"
+database_id = "57ad98e1-4ffa-4890-9985-608c9f92c44a"
