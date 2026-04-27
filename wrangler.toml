@@ -1,0 +1,8 @@
+name = "allsquared-website"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "allsquared-blog"
+database_id = "PLACEHOLDER"

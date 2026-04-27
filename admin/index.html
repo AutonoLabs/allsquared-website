@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin — AllSquared</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#000000;--paper:#FFF8EC;--paper-2:#FFE9B0;--white:#FFFFFF;
+  --lime:#C9F546;--lime-deep:#A6D72F;--tomato:#FF5B2E;--sky:#5BB7FF;
+  --shadow:6px 6px 0 var(--ink);--shadow-sm:4px 4px 0 var(--ink);
+  --border:3px solid var(--ink);--border-thick:4px solid var(--ink);
+  --display:'Archivo Black',Impact,sans-serif;
+  --sans:'Space Grotesk',-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;font-weight:500;-webkit-font-smoothing:antialiased;background-image:radial-gradient(circle at 1px 1px,rgba(0,0,0,.1) 1px,transparent 0);background-size:24px 24px;min-height:100vh}
+::selection{background:var(--lime);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:var(--sans);font-weight:600}
+
+/* ── LOGIN ────────────────────────────── */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px}
+.login-box{background:var(--white);border:var(--border-thick);box-shadow:var(--shadow);padding:48px;width:100%;max-width:400px}
+.login-logo{font-family:var(--display);font-size:28px;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:32px}
+.login-logo .glyph{width:44px;height:44px;background:var(--lime);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--mono);font-size:14px;font-weight:700}
+.login-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;display:block}
+.login-input{width:100%;border:var(--border);padding:12px 14px;font-family:var(--sans);font-size:16px;font-weight:500;background:var(--paper);outline:none;transition:box-shadow .15s}
+.login-input:focus{box-shadow:var(--shadow-sm)}
+.login-btn{width:100%;margin-top:20px;background:var(--ink);color:var(--lime);border:var(--border);padding:14px;font-size:15px;font-weight:700;font-family:var(--display);letter-spacing:.05em;text-transform:uppercase;transition:box-shadow .15s,transform .15s}
+.login-btn:hover{box-shadow:var(--shadow-sm);transform:translate(-2px,-2px)}
+.login-err{margin-top:12px;color:var(--tomato);font-size:14px;font-weight:600;display:none}
+
+/* ── LAYOUT ───────────────────────────── */
+#app{display:none;flex-direction:column;min-height:100vh}
+.topbar{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:var(--border-thick);padding:0 32px}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:16px}
+.topbar-logo{font-family:var(--display);font-size:16px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.topbar-logo .glyph{width:34px;height:34px;background:var(--lime);border:var(--border);display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:700}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:var(--border);font-family:var(--sans);font-size:13px;font-weight:700;background:var(--white);transition:box-shadow .15s,transform .15s}
+.btn:hover{box-shadow:var(--shadow-sm);transform:translate(-2px,-2px)}
+.btn-primary{background:var(--ink);color:var(--lime) !important;border-color:var(--ink)}
+.btn-danger{background:var(--tomato);color:var(--white) !important;border-color:var(--ink)}
+.btn-sm{padding:7px 12px;font-size:12px}
+
+.main{flex:1;padding:32px;max-width:1100px;margin:0 auto;width:100%}
+
+/* ── VIEWS ────────────────────────────── */
+.view{display:none}
+.view.active{display:block}
+
+/* ── POSTS LIST ───────────────────────── */
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;gap:16px;flex-wrap:wrap}
+.page-title{font-family:var(--display);font-size:32px;text-transform:uppercase;line-height:1}
+.posts-table{border:var(--border-thick);background:var(--white)}
+.posts-table-head{display:grid;grid-template-columns:1fr 120px 90px 100px;gap:0;background:var(--ink);color:var(--lime);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.posts-table-head div,.post-row-cell{padding:10px 16px}
+.post-row{display:grid;grid-template-columns:1fr 120px 90px 100px;border-top:var(--border);transition:background .12s}
+.post-row:hover{background:var(--paper)}
+.post-row-title{font-weight:700;font-size:15px;line-height:1.3;padding:12px 16px}
+.post-row-title small{display:block;font-family:var(--mono);font-size:11px;font-weight:400;opacity:.55;margin-top:2px}
+.post-row-cell{display:flex;align-items:center;padding:12px 16px;font-size:13px}
+.badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border:2px solid var(--ink)}
+.badge-live{background:var(--lime)}
+.badge-draft{background:var(--paper-2)}
+.post-row-actions{gap:6px}
+.empty-table{padding:48px;text-align:center;opacity:.45;font-family:var(--display);font-size:20px;text-transform:uppercase}
+
+/* ── EDITOR ───────────────────────────── */
+.editor-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;opacity:.6;margin-bottom:24px;cursor:pointer;border:none;background:none;padding:0}
+.editor-back:hover{opacity:1}
+.editor-grid{display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start}
+.editor-main{display:flex;flex-direction:column;gap:16px}
+.field-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;display:block}
+.field-input{width:100%;border:var(--border);padding:11px 14px;font-family:var(--sans);font-size:15px;font-weight:500;background:var(--white);outline:none;transition:box-shadow .15s;line-height:1.4}
+.field-input:focus{box-shadow:var(--shadow-sm)}
+.field-textarea{min-height:420px;resize:vertical;font-family:var(--mono);font-size:13px;line-height:1.6}
+.editor-sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:90px}
+.sidebar-card{background:var(--white);border:var(--border-thick);padding:20px}
+.sidebar-card-title{font-family:var(--display);font-size:14px;text-transform:uppercase;border-bottom:var(--border);padding-bottom:10px;margin-bottom:14px}
+.publish-toggle{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.toggle-label{font-size:14px;font-weight:600}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:var(--paper-2);border:var(--border);cursor:pointer;transition:background .2s}
+.toggle input:checked + .toggle-track{background:var(--lime)}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:16px;height:16px;background:var(--ink);transition:transform .2s}
+.toggle input:checked ~ .toggle-thumb,.toggle input:checked + .toggle-track + .toggle-thumb{transform:translateX(20px)}
+.toggle-track::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;background:var(--ink);transition:transform .2s}
+.toggle input:checked + .toggle-track::after{transform:translateX(20px)}
+.sidebar-btn{width:100%;margin-bottom:8px}
+.sidebar-btn:last-child{margin-bottom:0}
+.hint{font-size:12px;opacity:.55;line-height:1.4;font-family:var(--mono)}
+
+/* ── TOAST ────────────────────────────── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:var(--lime);padding:12px 20px;font-family:var(--mono);font-size:13px;font-weight:700;border:var(--border);box-shadow:var(--shadow);transform:translateY(80px);opacity:0;transition:transform .25s,opacity .25s;z-index:999}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.error{background:var(--tomato);color:var(--white)}
+
+/* ── LOADING ──────────────────────────── */
+.spinner{width:32px;height:32px;border:3px solid var(--ink);border-top-color:var(--lime);border-radius:50%;animation:spin .7s linear infinite;margin:40px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:700px){
+  .editor-grid{grid-template-columns:1fr}
+  .editor-sidebar{position:static}
+  .posts-table-head,.post-row{grid-template-columns:1fr 80px}
+  .posts-table-head div:nth-child(2),.posts-table-head div:nth-child(3),
+  .post-row>*:nth-child(2),.post-row>*:nth-child(3){display:none}
+  .topbar{padding:0 16px}
+  .main{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="glyph">A²</div>
+      Admin
+    </div>
+    <label class="login-label" for="pw-input">Password</label>
+    <input class="login-input" id="pw-input" type="password" placeholder="Enter admin password" autocomplete="current-password"/>
+    <button class="login-btn" id="login-btn">Unlock →</button>
+    <div class="login-err" id="login-err">Wrong password. Try again.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-logo">
+        <div class="glyph">A²</div>
+        AllSquared Admin
+      </div>
+      <div class="topbar-right">
+        <a class="btn btn-sm" href="/blog/" target="_blank">View blog ↗</a>
+        <button class="btn btn-sm" id="logout-btn">Log out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- POST LIST VIEW -->
+    <div id="view-list" class="view active">
+      <div class="page-header">
+        <div class="page-title">Posts</div>
+        <button class="btn btn-primary" id="new-post-btn">+ New post</button>
+      </div>
+      <div id="posts-list-container"><div class="spinner"></div></div>
+    </div>
+
+    <!-- EDITOR VIEW -->
+    <div id="view-editor" class="view">
+      <button class="editor-back" id="back-btn">← Back to posts</button>
+      <div class="editor-grid">
+        <div class="editor-main">
+          <div>
+            <label class="field-label" for="f-title">Title</label>
+            <input class="field-input" id="f-title" type="text" placeholder="Post title"/>
+          </div>
+          <div>
+            <label class="field-label" for="f-slug">Slug <span style="opacity:.5;font-weight:400">(auto-generated from title)</span></label>
+            <input class="field-input" id="f-slug" type="text" placeholder="my-post-slug"/>
+          </div>
+          <div>
+            <label class="field-label" for="f-excerpt">Excerpt <span style="opacity:.5;font-weight:400">(shown in listing)</span></label>
+            <input class="field-input" id="f-excerpt" type="text" placeholder="One-line summary"/>
+          </div>
+          <div>
+            <label class="field-label" for="f-content">Content <span style="opacity:.5;font-weight:400">(HTML)</span></label>
+            <textarea class="field-input field-textarea" id="f-content" placeholder="<p>Write your post here...</p>&#10;&#10;<h2>Subheading</h2>&#10;<p>More content...</p>"></textarea>
+          </div>
+        </div>
+
+        <div class="editor-sidebar">
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Publish</div>
+            <div class="publish-toggle">
+              <span class="toggle-label" id="publish-label">Draft</span>
+              <label class="toggle">
+                <input type="checkbox" id="f-published"/>
+                <div class="toggle-track"></div>
+              </label>
+            </div>
+            <button class="btn btn-primary sidebar-btn" id="save-btn">Save</button>
+            <button class="btn btn-danger sidebar-btn" id="delete-btn" style="display:none">Delete post</button>
+          </div>
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Tips</div>
+            <p class="hint">Content is HTML. Use &lt;p&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;blockquote&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;code&gt;.</p>
+            <br/>
+            <p class="hint">Toggle publish to make a post live. Unpublished posts won't appear on the blog.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const TOKEN_KEY = 'as_admin_token';
+let token = localStorage.getItem(TOKEN_KEY) || '';
+let editingId = null;
+
+// ── AUTH ──────────────────────────────────────
+document.getElementById('login-btn').onclick = login;
+document.getElementById('pw-input').onkeydown = e => { if (e.key === 'Enter') login(); };
+
+async function login() {
+  const pw = document.getElementById('pw-input').value.trim();
+  if (!pw) return;
+  const btn = document.getElementById('login-btn');
+  btn.textContent = 'Checking…';
+  btn.disabled = true;
+  try {
+    const res = await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw }),
+    });
+    if (!res.ok) throw new Error();
+    const { token: t } = await res.json();
+    token = t;
+    localStorage.setItem(TOKEN_KEY, token);
+    showApp();
+  } catch {
+    document.getElementById('login-err').style.display = 'block';
+    btn.textContent = 'Unlock →';
+    btn.disabled = false;
+  }
+}
+
+document.getElementById('logout-btn').onclick = () => {
+  localStorage.removeItem(TOKEN_KEY);
+  token = '';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pw-input').value = '';
+};
+
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  loadPosts();
+}
+
+if (token) {
+  fetch('/api/posts', { headers: { Authorization: `Bearer ${token}` } })
+    .then(r => r.ok ? showApp() : null)
+    .catch(() => {});
+}
+
+// ── API HELPERS ───────────────────────────────
+function api(path, method = 'GET', body) {
+  return fetch(path, {
+    method,
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+}
+
+// ── TOAST ─────────────────────────────────────
+let toastTimer;
+function toast(msg, isError = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (isError ? ' error' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = 'toast'; }, 2800);
+}
+
+// ── VIEWS ─────────────────────────────────────
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('id' in arguments[0] ? arguments[0].id : id).classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ── POSTS LIST ────────────────────────────────
+async function loadPosts() {
+  const container = document.getElementById('posts-list-container');
+  container.innerHTML = '<div class="spinner"></div>';
+  showView('view-list');
+
+  try {
+    const res = await api('/api/posts');
+    const posts = await res.json();
+    renderPostsList(posts);
+  } catch {
+    container.innerHTML = '<div class="empty-table">Failed to load posts.</div>';
+  }
+}
+
+function renderPostsList(posts) {
+  const container = document.getElementById('posts-list-container');
+  if (!posts.length) {
+    container.innerHTML = `<div class="posts-table"><div class="empty-table">No posts yet. Create your first one.</div></div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="posts-table">
+      <div class="posts-table-head">
+        <div>Title</div>
+        <div>Date</div>
+        <div>Status</div>
+        <div>Actions</div>
+      </div>
+      ${posts.map(p => `
+        <div class="post-row" data-id="${p.id}">
+          <div class="post-row-title">
+            ${p.title}
+            <small>/${p.slug}</small>
+          </div>
+          <div class="post-row-cell" style="font-family:var(--mono);font-size:12px;opacity:.6">
+            ${p.published_at ? new Date(p.published_at).toLocaleDateString('en-GB') : '—'}
+          </div>
+          <div class="post-row-cell">
+            <span class="badge ${p.published ? 'badge-live' : 'badge-draft'}">${p.published ? '● Live' : '○ Draft'}</span>
+          </div>
+          <div class="post-row-cell post-row-actions">
+            <button class="btn btn-sm" onclick="editPost(${p.id})">Edit</button>
+            ${p.published
+              ? `<button class="btn btn-sm" onclick="togglePublish(${p.id}, false)">Unpublish</button>`
+              : `<button class="btn btn-sm btn-primary" onclick="togglePublish(${p.id}, true)">Publish</button>`}
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+document.getElementById('new-post-btn').onclick = () => openEditor(null);
+document.getElementById('back-btn').onclick = loadPosts;
+
+// ── EDITOR ────────────────────────────────────
+function slugify(s) {
+  return s.toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-');
+}
+
+let slugEdited = false;
+document.getElementById('f-title').oninput = function() {
+  if (!slugEdited) document.getElementById('f-slug').value = slugify(this.value);
+};
+document.getElementById('f-slug').oninput = function() {
+  slugEdited = !!this.value;
+};
+document.getElementById('f-published').onchange = function() {
+  document.getElementById('publish-label').textContent = this.checked ? 'Published' : 'Draft';
+};
+
+async function openEditor(id) {
+  editingId = id;
+  slugEdited = false;
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-slug').value = '';
+  document.getElementById('f-excerpt').value = '';
+  document.getElementById('f-content').value = '';
+  document.getElementById('f-published').checked = false;
+  document.getElementById('publish-label').textContent = 'Draft';
+  document.getElementById('delete-btn').style.display = id ? 'block' : 'none';
+  document.getElementById('save-btn').textContent = 'Save';
+
+  if (id) {
+    document.getElementById('save-btn').textContent = 'Loading…';
+    try {
+      const res = await api(`/api/posts/${id}`);
+      const p = await res.json();
+      document.getElementById('f-title').value = p.title;
+      document.getElementById('f-slug').value = p.slug;
+      document.getElementById('f-excerpt').value = p.excerpt || '';
+      document.getElementById('f-content').value = p.content;
+      document.getElementById('f-published').checked = !!p.published;
+      document.getElementById('publish-label').textContent = p.published ? 'Published' : 'Draft';
+      slugEdited = true;
+    } catch {
+      toast('Failed to load post', true);
+    }
+    document.getElementById('save-btn').textContent = 'Save';
+  }
+
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-editor').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function editPost(id) { openEditor(id); }
+
+document.getElementById('save-btn').onclick = async () => {
+  const title = document.getElementById('f-title').value.trim();
+  const slug = document.getElementById('f-slug').value.trim();
+  const content = document.getElementById('f-content').value.trim();
+  const excerpt = document.getElementById('f-excerpt').value.trim();
+  const published = document.getElementById('f-published').checked;
+
+  if (!title || !content) { toast('Title and content are required', true); return; }
+
+  const btn = document.getElementById('save-btn');
+  btn.textContent = 'Saving…';
+  btn.disabled = true;
+
+  try {
+    let res;
+    if (editingId) {
+      res = await api(`/api/posts/${editingId}`, 'PUT', { title, slug, content, excerpt, published });
+    } else {
+      res = await api('/api/posts', 'POST', { title, slug, content, excerpt, published });
+    }
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || 'Save failed');
+    }
+    const data = await res.json();
+    if (!editingId) editingId = data.id;
+    toast(published ? 'Post saved and live ✓' : 'Draft saved ✓');
+    document.getElementById('delete-btn').style.display = 'block';
+  } catch (e) {
+    toast(e.message || 'Save failed', true);
+  }
+  btn.textContent = 'Save';
+  btn.disabled = false;
+};
+
+document.getElementById('delete-btn').onclick = async () => {
+  if (!editingId) return;
+  if (!confirm('Delete this post? This cannot be undone.')) return;
+  try {
+    const res = await api(`/api/posts/${editingId}`, 'DELETE');
+    if (!res.ok) throw new Error();
+    toast('Post deleted');
+    loadPosts();
+  } catch {
+    toast('Delete failed', true);
+  }
+};
+
+async function togglePublish(id, publish) {
+  try {
+    const res = await api(`/api/posts/${id}`, 'PUT', { published: publish });
+    if (!res.ok) throw new Error();
+    toast(publish ? 'Post published ✓' : 'Post unpublished');
+    loadPosts();
+  } catch {
+    toast('Failed to update', true);
+  }
+}
+</script>
+</body>
+</html>
