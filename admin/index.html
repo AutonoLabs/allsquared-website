@@ -141,6 +141,7 @@ button{cursor:pointer;font-family:var(--sans);font-weight:600}
       <div class="topbar-logo">
         <div class="glyph">A²</div>
         AllSquared Admin
+        <span id="variant-badge" style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border:2px solid var(--ink);margin-left:8px;opacity:.6"></span>
       </div>
       <div class="topbar-right">
         <a class="btn btn-sm" href="/blog/" target="_blank">View blog ↗</a>
@@ -213,6 +214,15 @@ button{cursor:pointer;font-family:var(--sans);font-weight:600}
 const TOKEN_KEY = 'as_admin_token';
 let token = localStorage.getItem(TOKEN_KEY) || '';
 let editingId = null;
+
+// Show which variant/domain this admin is on
+const isUK = location.hostname.endsWith('.uk');
+const badge = document.getElementById('variant-badge');
+if (badge) {
+  badge.textContent = isUK ? '.uk — Bold' : '.io — Navy';
+  badge.style.background = isUK ? '#C9F546' : '#E5F1EA';
+  badge.style.opacity = '1';
+}
 
 // ── AUTH ──────────────────────────────────────
 document.getElementById('login-btn').onclick = login;
