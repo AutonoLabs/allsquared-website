@@ -35,7 +35,7 @@ jobs:
         run: find functions -name '*.js' -print0 | xargs -0 -n1 node --check
 
       - name: Validate D1 schema
-        run: sqlite3 :memory: < schema.sql
+        run: "sqlite3 :memory: < schema.sql"
 
       - name: Validate wrangler.toml
         run: python3 -c "import tomllib; tomllib.load(open('wrangler.toml', 'rb'))"
