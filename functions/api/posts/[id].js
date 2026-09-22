@@ -1,14 +1,11 @@
-function isAuthed(request, env) {
-  const auth = request.headers.get('Authorization') || '';
-  return env.ADMIN_PASSWORD && auth === `Bearer ${env.ADMIN_PASSWORD}`;
-}
+import { isAuthed } from '../lib/auth.js';
 
 function json(data, status = 200) {
   return Response.json(data, { status });
 }
 
 export async function onRequestGet({ params, env, request }) {
-  const authed = isAuthed(request, env);
+  const authed = await isAuthed(request, env);
   const post = await env.DB.prepare('SELECT * FROM posts WHERE id = ?').bind(params.id).first();
   if (!post) return json({ error: 'Not found' }, 404);
   if (!post.published && !authed) return json({ error: 'Not found' }, 404);
@@ -16,7 +13,7 @@ export async function onRequestGet({ params, env, request }) {
 }
 
 export async function onRequestPut({ params, request, env }) {
-  if (!isAuthed(request, env)) return json({ error: 'Unauthorized' }, 401);
+  if (!(await isAuthed(request, env))) return json({ error: 'Unauthorized' }, 401);
 
   let body;
   try { body = await request.json(); } catch { return json({ error: 'Invalid JSON' }, 400); }
@@ -44,7 +41,7 @@ export async function onRequestPut({ params, request, env }) {
 }
 
 export async function onRequestDelete({ params, request, env }) {
-  if (!isAuthed(request, env)) return json({ error: 'Unauthorized' }, 401);
+  if (!(await isAuthed(request, env))) return json({ error: 'Unauthorized' }, 401);
   const result = await env.DB.prepare('DELETE FROM posts WHERE id = ?').bind(params.id).run();
   if (!result.meta.changes) return json({ error: 'Not found' }, 404);
   return json({ deleted: true });

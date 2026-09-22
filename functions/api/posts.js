@@ -1,7 +1,4 @@
-function isAuthed(request, env) {
-  const auth = request.headers.get('Authorization') || '';
-  return env.ADMIN_PASSWORD && auth === `Bearer ${env.ADMIN_PASSWORD}`;
-}
+import { isAuthed } from '../lib/auth.js';
 
 function json(data, status = 200) {
   return Response.json(data, { status });
@@ -16,7 +13,7 @@ function slugify(title) {
 }
 
 export async function onRequestGet({ request, env }) {
-  const authed = isAuthed(request, env);
+  const authed = await isAuthed(request, env);
   const query = authed
     ? 'SELECT id, title, slug, excerpt, published, published_at, created_at, updated_at FROM posts ORDER BY created_at DESC'
     : 'SELECT id, title, slug, excerpt, published_at, created_at FROM posts WHERE published = 1 ORDER BY published_at DESC';
@@ -25,7 +22,7 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPost({ request, env }) {
-  if (!isAuthed(request, env)) return json({ error: 'Unauthorized' }, 401);
+  if (!(await isAuthed(request, env))) return json({ error: 'Unauthorized' }, 401);
 
   let body;
   try { body = await request.json(); } catch { return json({ error: 'Invalid JSON' }, 400); }
