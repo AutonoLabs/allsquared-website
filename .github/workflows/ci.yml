@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate site & Pages Functions
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required static assets
+        run: |
+          test -f index.html
+          test -f wrangler.toml
+          test -f schema.sql
+          test -d functions
+          test -f admin/index.html
+          test -f blog/index.html
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate Pages Functions syntax
+        run: find functions -name '*.js' -print0 | xargs -0 -n1 node --check
+
+      - name: Validate D1 schema
+        run: sqlite3 :memory: < schema.sql
+
+      - name: Validate wrangler.toml
+        run: python3 -c "import tomllib; tomllib.load(open('wrangler.toml', 'rb'))"
