@@ -58,13 +58,15 @@ wrangler pages deploy . --project-name=allsquared-website
 
 ---
 
-## 5. Set the admin password
+## 5. Set admin auth secrets
 
 1. Go to **Pages project → Settings → Environment variables**
-2. Add variable (set for both Production and Preview):
-   - **Key**: `ADMIN_PASSWORD`
-   - **Value**: a strong password of your choice
+2. Add variables (set for both Production and Preview):
+   - **Key**: `ADMIN_PASSWORD` — the password you enter at `/admin/`
+   - **Key**: `SESSION_SECRET` — a long random string used to sign admin session tokens (e.g. `openssl rand -base64 32`)
 3. Save and redeploy
+
+Login validates `ADMIN_PASSWORD` once, then returns a signed session token (24-hour expiry). API routes verify the token signature — the password is never sent as a bearer token.
 
 Your admin panel will be at `/admin/` — log in with the password you set.
 
@@ -99,9 +101,12 @@ npm install -g wrangler
 # Run locally with D1 (creates a local SQLite copy)
 wrangler pages dev . --d1=DB=allsquared-blog
 
-# Set local admin password
+# Set local admin secrets
 # Create a .dev.vars file (gitignored):
-echo 'ADMIN_PASSWORD=localpass' > .dev.vars
+cat > .dev.vars <<'EOF'
+ADMIN_PASSWORD=localpass
+SESSION_SECRET=local-dev-session-secret-change-me
+EOF
 ```
 
 The site will be available at `http://localhost:8788`.

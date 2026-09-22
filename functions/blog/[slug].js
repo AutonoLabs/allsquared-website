@@ -1,3 +1,5 @@
+import { sanitizePostHtml } from '../lib/sanitize-html.js';
+
 export async function onRequestGet({ params, env, request }) {
   const host = request.headers.get('host') || '';
   const isBold = host.includes('.uk');
@@ -152,7 +154,7 @@ ${sharedFonts()}
     <h1 class="post-title">${esc(post.title)}</h1>
     ${post.excerpt ? `<p class="post-excerpt">${esc(post.excerpt)}</p>` : ''}
   </header>
-  <div class="post-body">${post.content}</div>
+  <div class="post-body">${sanitizePostHtml(post.content)}</div>
 </div>
 <footer>© AllSquared Ltd · <a href="/">${domain}</a></footer>
 </body>
